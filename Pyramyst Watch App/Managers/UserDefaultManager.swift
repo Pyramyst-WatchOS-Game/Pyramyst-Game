@@ -6,3 +6,49 @@
 //
 
 import Foundation
+
+class UserDefaultManager {
+    static let shared = UserDefaultManager()
+    private init() {}
+    
+    //MARK: Keys
+    private let itemsKey = "collectedItemsKey"
+    
+    //MARK: Items Collectible functions
+    func loadItems() -> [ItemModel] {
+        guard let data = UserDefaults.standard.data(forKey: itemsKey) else { return [] }
+        do {
+            return try JSONDecoder().decode([ItemModel].self, from: data)
+        } catch {
+            print("Failed to load items: \(error)")
+            return []
+        }
+    }
+    
+    func saveItems(_ items: [ItemModel]) {
+        do {
+            let data = try JSONEncoder().encode(items)
+            UserDefaults.standard.set(data, forKey: itemsKey)
+        } catch {
+            print("Failed to save items: \(error)")
+        }
+    }
+    
+    func initItems() {
+        let existingItems = loadItems()
+        if !existingItems.isEmpty {
+            return
+        }
+        let defaultItems: [ItemModel] = defaultCollectibleItems // init from constant items
+        saveItems(defaultItems)
+    }
+    
+    func updateItem(id: UUID, isCollected: Bool, date: Date = Date()) {
+        var items = loadItems()
+        if let idx = items.firstIndex(where: { $0.id == id }) {
+            items[idx].isCollected = isCollected
+            items[idx].collectedDate = isCollected ? date : nil
+            saveItems(items)
+        }
+    }
+}
