@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct Pyramyst_Watch_App: App {
+    @StateObject private var router = Router()
+    
     var body: some Scene {
            WindowGroup {
-               GameView()
+               HomeView()
            }
+           .environmentObject(router)
        }
 }
