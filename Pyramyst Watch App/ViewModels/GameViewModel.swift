@@ -11,6 +11,7 @@ import WatchKit
 
 final class GameViewModel: ObservableObject {
     @Published var rotation: Double = 0.0
+    
        let scene: SKScene
 
        private var lastTick = 0
