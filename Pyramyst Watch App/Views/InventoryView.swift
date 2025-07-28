@@ -10,10 +10,10 @@ import SpriteKit
 
 struct InventoryView: View {
     @StateObject private var viewModel = InventoryViewModel()
-    
+
     var body: some View {
         ScrollView {
-            VStack(spacing: 12) {
+            LazyVStack(spacing: 4) {
                 ForEach(viewModel.items) { item in
                     HStack(spacing: 12) {
                         Image(item.image)
@@ -34,7 +34,8 @@ struct InventoryView: View {
 
                         Spacer()
                     }
-                    .padding()
+                    .padding(.vertical, 8)
+                    .padding(.leading, 12)
                     .background(
                         RoundedRectangle(cornerRadius: 16)
                             .fill(
