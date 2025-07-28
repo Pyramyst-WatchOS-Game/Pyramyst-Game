@@ -26,7 +26,7 @@ struct GameOverModalSheet: View {
                 .buttonStyle(.borderedProminent)
 
                 Button(action: onQuit) {
-                    Text("Quit")
+                    Text("Back Home")
                         .frame(minWidth: 60)
                 }
                 .buttonStyle(.bordered)

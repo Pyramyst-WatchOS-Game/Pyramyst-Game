@@ -26,6 +26,13 @@ struct GameView: View {
                 .onChange(of: viewModel.rotation) { _, newValue in
                     viewModel.updateRotation(to: newValue)
                 }
+            
+            Button {
+                router.navigateTo(to: .success)
+            } label: {
+                Text("sukses")
+            }
+
         }
 }
 
