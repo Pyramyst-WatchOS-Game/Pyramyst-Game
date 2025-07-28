@@ -1,5 +1,5 @@
 //
-//  CollectibleViewModel.swift
+//  InventoryViewModel.swift
 //  Pyramyst
 //
 //  Created by Muhamad Gatot Supiadin on 27/07/25.
@@ -9,7 +9,7 @@ import Foundation
 import SpriteKit
 import Combine
 
-class CollectibleViewModel: ObservableObject {
+class InventoryViewModel: ObservableObject {
     
     @Published var items: [ItemModel] = []
     private let manager = UserDefaultManager.shared

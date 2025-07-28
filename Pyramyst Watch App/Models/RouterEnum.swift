@@ -7,6 +7,6 @@
 
 enum RouterEnum: Hashable {
     case home
-    case collectibles
+    case inventory
     case gameplay
 }

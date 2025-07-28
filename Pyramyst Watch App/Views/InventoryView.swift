@@ -8,8 +8,8 @@
 import SwiftUI
 import SpriteKit
 
-struct CollectibleView: View {
-    @StateObject private var viewModel = CollectibleViewModel()
+struct InventoryView: View {
+    @StateObject private var viewModel = InventoryViewModel()
     
     var body: some View {
         List(viewModel.items) { item in

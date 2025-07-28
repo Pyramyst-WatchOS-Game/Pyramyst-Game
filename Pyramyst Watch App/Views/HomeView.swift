@@ -17,15 +17,15 @@ struct HomeView: View {
                     router.navigateTo(to: .gameplay)
                 }
                 Button("Go to collection") {
-                    router.navigateTo(to: .collectibles)
+                    router.navigateTo(to: .inventory)
                 }
             }
             .navigationDestination(for: RouterEnum.self) { route in
                 switch route {
                 case .gameplay:
                     GameView()
-                case .collectibles:
-                    CollectibleView()
+                case .inventory:
+                    InventoryView()
                 case .home:
                     HomeView()
                 }
