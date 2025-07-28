@@ -28,6 +28,8 @@ struct HomeView: View {
                     InventoryView()
                 case .home:
                     HomeView()
+                case .gameOver:
+                    GameOverView()
                 }
             }
         }

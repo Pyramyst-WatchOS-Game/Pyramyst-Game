@@ -11,6 +11,9 @@ import WatchKit
 
 class GameOverViewModel: ObservableObject {
     @Published var showGameOverModal: Bool = false
+    
+    var manager = UserDefaultManager()
+    
     let gameOverScene: GameOverScene
     
     init() {
@@ -38,6 +41,7 @@ class GameOverViewModel: ObservableObject {
     }
     
     func resetGame() {
+        manager.resetLevel()
     }
     
     func restartGame() {

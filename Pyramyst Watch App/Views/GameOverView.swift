@@ -10,6 +10,7 @@ import SpriteKit
 
 struct GameOverView: View {
     @StateObject private var gameOverVM = GameOverViewModel()
+    @EnvironmentObject var router: Router
 
     var body: some View {
         ZStack {
@@ -20,9 +21,11 @@ struct GameOverView: View {
                 onRetry: {
                     gameOverVM.restartGame()
                     gameOverVM.resetModal()
+                    router.reset()
                 },
                 onQuit: {
                     gameOverVM.resetGame()
+                    router.reset()
                 }
             )
         }

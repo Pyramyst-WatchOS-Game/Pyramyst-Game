@@ -10,6 +10,7 @@ import SpriteKit
 
 struct GameView: View {
     @StateObject private var viewModel = GameViewModel()
+    @EnvironmentObject var router : Router
 
         var body: some View {
             SpriteView(scene: viewModel.scene)

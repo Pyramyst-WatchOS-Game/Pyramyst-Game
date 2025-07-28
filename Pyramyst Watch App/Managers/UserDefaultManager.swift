@@ -9,10 +9,11 @@ import Foundation
 
 class UserDefaultManager {
     static let shared = UserDefaultManager()
-    private init() {}
+    init() {}
     
     //MARK: Keys
     private let itemsKey = "collectedItemsKey"
+    private let userLevelKey = "userLevelKey"
     
     //MARK: Items Collectible functions
     func loadItems() -> [ItemModel] {
@@ -50,5 +51,19 @@ class UserDefaultManager {
             items[idx].collectedDate = isCollected ? date : nil
             saveItems(items)
         }
+    }
+    
+    //MARK: User level functions
+    func resetLevel() {
+        UserDefaults.standard.set(GameLevel.one.rawValue, forKey: userLevelKey)
+    }
+    
+    func updateLevel(_ level: GameLevel) -> Void {
+        UserDefaults.standard.set(level.rawValue, forKey: userLevelKey)
+    }
+    
+    func getCurrentLevel() -> GameLevel {
+        let rawValue = UserDefaults.standard.integer(forKey: userLevelKey)
+        return GameLevel(rawValue: rawValue) ?? .one
     }
 }
