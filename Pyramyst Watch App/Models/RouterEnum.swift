@@ -10,4 +10,5 @@ enum RouterEnum: Hashable {
     case inventory
     case gameplay
     case gameOver
+    case success
 }

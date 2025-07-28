@@ -30,6 +30,8 @@ struct HomeView: View {
                     HomeView()
                 case .gameOver:
                     GameOverView()
+                case .success:
+                    SuccessView()
                 }
             }
         }
