@@ -9,6 +9,7 @@ import Foundation
 import SpriteKit
 
 class SuccessScene: SKScene {
+    var onHomeTapped: (() -> Void)?
 
     private let chest = SKSpriteNode(imageNamed: "chest")
     private var treasure: SKSpriteNode!
@@ -147,4 +148,5 @@ class SuccessScene: SKScene {
         homeButton.run(SKAction.sequence([buttonDelay, fadeInButton]))
         nextButton.run(SKAction.sequence([buttonDelay, fadeInButton]))
     }
+
 }

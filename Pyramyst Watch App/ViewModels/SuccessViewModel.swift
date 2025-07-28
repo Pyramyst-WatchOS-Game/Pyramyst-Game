@@ -10,16 +10,14 @@ import Foundation
 class SuccessViewModel : ObservableObject {
     var manager = UserDefaultManager()
     
-    let successScene: SuccessScene
+    @Published var successScene: SuccessScene? = nil
     
-    init() {
-        let size = CGSize(width: 184, height: 224)
-        let scene = SuccessScene(size: size, treasureImageName: "treasure", treasureText: "Guci Firaun")
+    func launchScene(image: String, name: String) {
+        let scene = SuccessScene(size: CGSize(width: 184, height: 224), treasureImageName: image, treasureText: name)
         scene.scaleMode = .resizeFill
-        
         self.successScene = scene
     }
-    
+
     func updateLevel(level: GameLevel) {
     
     }

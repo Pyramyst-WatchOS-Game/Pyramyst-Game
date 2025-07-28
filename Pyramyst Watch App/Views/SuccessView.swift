@@ -9,15 +9,28 @@ import SwiftUI
 import SpriteKit
 
 struct SuccessView: View {
-    @StateObject private var successVM = SuccessViewModel()
+    @EnvironmentObject var successVM: SuccessViewModel
     @EnvironmentObject var router: Router
 
     var body: some View {
         ZStack {
-            SpriteView(scene: successVM.successScene)
+            if let scene = successVM.successScene {
+                SpriteView(scene: scene)
+            } else {
+               ProgressView()
+            }
         }
         .navigationBarBackButtonHidden(true)
         .ignoresSafeArea()
+        .onAppear {
+            if let scene = successVM.successScene {
+                print("Scene-nya ada nich: \(scene)")
+            } else {
+                print("Loh scene nil cok")
+            }
+        }
+        
+
     }
 }
 #Preview {

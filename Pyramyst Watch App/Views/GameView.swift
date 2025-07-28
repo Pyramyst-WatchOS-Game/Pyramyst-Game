@@ -10,6 +10,7 @@ import SpriteKit
 
 struct GameView: View {
     @StateObject private var viewModel = GameViewModel()
+    @EnvironmentObject var successVM: SuccessViewModel
     @EnvironmentObject var router : Router
 
         var body: some View {
@@ -28,7 +29,12 @@ struct GameView: View {
                 }
             
             Button {
+                let treasureName = "Mahkota mesir"
+                let treaseureImage = "treasure"
+                
+                successVM.launchScene(image: treaseureImage, name: treasureName)
                 router.navigateTo(to: .success)
+
             } label: {
                 Text("sukses")
             }

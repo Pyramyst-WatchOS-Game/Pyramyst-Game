@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var router: Router
+
     
     var body: some View {
         NavigationStack( path: $router.path) {
