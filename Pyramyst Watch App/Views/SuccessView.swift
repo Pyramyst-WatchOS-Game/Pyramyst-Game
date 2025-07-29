@@ -12,6 +12,11 @@ struct SuccessView: View {
     @EnvironmentObject var successVM: SuccessViewModel
     @EnvironmentObject var router: MainFlowRouter
     
+    init () {
+        print("SuccessView initialized")
+        
+    }
+    
     var body: some View {
         ZStack {
             if let scene = successVM.successScene {

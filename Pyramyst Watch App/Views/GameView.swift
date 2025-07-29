@@ -21,6 +21,10 @@ struct GameView: View {
         self._viewModel = StateObject(wrappedValue: GameViewModel(gameModel: gameModel))
         UserDefaultManager.shared.initItems()
     }
+    
+    deinit {
+        print("🗑️ GameView deinitialized")
+    }
 
     var body: some View {
         SpriteView(scene: viewModel.scene)

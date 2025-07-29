@@ -73,7 +73,11 @@ struct HomeView: View {
     @StateObject private var router = MainFlowRouter()
     @State private var isPlayButtonPressed = false
     @State private var isCollectionButtonPressed = false
-
+    
+    init() {
+        print("HomeView initialized")
+    }
+    
     var body: some View {
         NavigationStack(path: $router.navPaths) {
             mainView
@@ -101,7 +105,7 @@ struct HomeView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 35, height: 35)
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(NoTapAnimationStyle())
                     
                     Spacer()
                 }
@@ -125,7 +129,7 @@ struct HomeView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(height: 55)
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(NoTapAnimationStyle())
                 }
                 
                 Spacer()
@@ -139,12 +143,11 @@ struct HomeView: View {
         
         isPlayButtonPressed = true
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             isPlayButtonPressed = false
+            router.navigateTo(.gameView)
         }
         
-        print("Navigating to gameplay")
-        router.navigateTo(.gameView)
     }
     
     private func collectionButtonTapped() {
@@ -153,12 +156,18 @@ struct HomeView: View {
         
         isCollectionButtonPressed = true
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             isCollectionButtonPressed = false
+            router.navigateTo(.inventoryView)
         }
         
-        print("Navigating to collectibles")
-        router.navigateTo(.inventoryView)
     }
 }
 
+struct NoTapAnimationStyle: PrimitiveButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .contentShape(Rectangle())
+            .onTapGesture(perform: configuration.trigger)
+    }
+}

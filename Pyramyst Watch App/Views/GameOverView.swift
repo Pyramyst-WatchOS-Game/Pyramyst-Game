@@ -11,6 +11,10 @@ import SpriteKit
 struct GameOverView: View {
     @StateObject private var gameOverVM = GameOverViewModel()
     @EnvironmentObject var router: MainFlowRouter
+    
+    init() {
+        print("GameOverView initialized")
+    }
 
     var body: some View {
         ZStack {

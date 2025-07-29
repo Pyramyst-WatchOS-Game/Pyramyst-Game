@@ -98,6 +98,11 @@ class GameScene: SKScene {
         
         backgroundColor = .black
         
+        if let correctSign = childNode(withName: "correctSign") as? SKSpriteNode {
+            correctSign.removeAllActions()
+            correctSign.setScale(1.0)
+        }
+        
         if isCorrect {
             if let correctSign = childNode(withName: "correctSign") as? SKSpriteNode {
                 correctSign.removeAllActions()
