@@ -15,22 +15,28 @@ struct GameOverView: View {
     var body: some View {
         ZStack {
             SpriteView(scene: gameOverVM.gameOverScene)
+                .ignoresSafeArea()
+
+            if gameOverVM.showGameOverModal {
+                Color.black.opacity(0.6)
+                    .ignoresSafeArea()
+
+                GameOverModalSheet(
+                    onRetry: {
+                        gameOverVM.resetModal()
+                        router.reset()
+                        router.navigateTo(to: .gameplay)
+                    },
+                    onQuit: {
+                        gameOverVM.resetGame()
+                        router.reset()
+                    }
+                )
+                .transition(.scale)
+                .zIndex(1)
+            }
         }
         .navigationBarBackButtonHidden(true)
-        .ignoresSafeArea()
-        .sheet(isPresented: $gameOverVM.showGameOverModal) {
-            GameOverModalSheet(
-                onRetry: {
-                    gameOverVM.restartGame()
-                    gameOverVM.resetModal()
-                    router.reset()
-                },
-                onQuit: {
-                    gameOverVM.resetGame()
-                    router.reset()
-                }
-            )
-        }
     }
 }
 
