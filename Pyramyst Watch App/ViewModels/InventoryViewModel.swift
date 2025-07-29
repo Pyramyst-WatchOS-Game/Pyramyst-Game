@@ -19,6 +19,10 @@ class InventoryViewModel: ObservableObject {
         loadItem()
     }
     
+    deinit {
+       print("InventoryViewModel deinitialized")
+   }
+    
     func loadItem () {
 //        items = manager.loadItems().sorted{ ($0.collectedDate ?? .distantPast) > ($1.collectedDate ?? .distantPast) } // Sort by date
         items = manager.loadItems().sorted{ $0.level < $1.level } // sort by level

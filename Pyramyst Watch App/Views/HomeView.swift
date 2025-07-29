@@ -145,7 +145,7 @@ struct HomeView: View {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             isPlayButtonPressed = false
-            router.navigateTo(.gameView)
+            router.navigateTo(.storyView)
         }
         
     }
