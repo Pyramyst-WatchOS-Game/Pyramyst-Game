@@ -7,90 +7,105 @@
 
 import Foundation
 import SpriteKit
-import SwiftUI
 import WatchKit
 
 class GameOverScene: SKScene {
     var onFinishedCollapse: (() -> Void)?
     
-    private let brickWidth: CGFloat = 50
-    private let brickHeight: CGFloat = 50
-    private let totalCols = 6
-    private let totalRows = 7
-    private let offsetX: CGFloat = 15
-    private let rowSpacing: CGFloat = 5
-
+    private var bricks: [SKSpriteNode] = []
+    
     override func sceneDidLoad() {
         backgroundColor = .black
-        createFallingBricks()
-        scheduleFinishCallback()
-    }
-
-    private func createFallingBricks() {
+        
+        let brickWidth: CGFloat = 50
+        let brickHeight: CGFloat = 50
+        let totalCols = 6
+        let totalRows = 7
+        let offsetX: CGFloat = 15
+        let spacingY: CGFloat = 5
+        
         for row in 0..<totalRows {
             let isEvenRow = row % 2 == 0
             let extraCol = isEvenRow ? 1 : 0
 
             for col in (-extraCol)..<totalCols {
-                let brick = makeBrick(forRow: row, col: col, isEvenRow: isEvenRow)
+                let brickIndex = Int.random(in: 1...5)
+                let brickName = "brick\(brickIndex)"
+                let brick = SKSpriteNode(imageNamed: brickName)
+                brick.size = CGSize(width: brickWidth, height: brickHeight)
+
+                let posX = CGFloat(col) * brickWidth + brickWidth / 2 + (isEvenRow ? offsetX : -offsetX)
+                let posY = CGFloat(row) * (brickHeight - spacingY) + brickHeight / 2
+
+                brick.position = CGPoint(x: posX, y: posY)
+                brick.name = "brick_\(row)_\(col)"
+                
+                // Awal: kecil
+                brick.setScale(0.0)
+                
                 addChild(brick)
-                runBrickAnimation(brick, row: row)
+                bricks.append(brick)
+
+                // Animasi membesar
+                let scaleUp = SKAction.scale(to: 1.0, duration: 0.8)
+                scaleUp.timingMode = .easeOut
+                brick.run(scaleUp)
             }
         }
-    }
 
-    private func makeBrick(forRow row: Int, col: Int, isEvenRow: Bool) -> SKSpriteNode {
-        let brickIndex = Int.random(in: 1...5)
-        let brickName = "brick\(brickIndex)"
-        let brick = SKSpriteNode(imageNamed: brickName)
-        brick.size = CGSize(width: brickWidth, height: brickHeight)
-        brick.alpha = 0
-        brick.name = "brick_\(row)_\(col)"
-
-        let xOffset = isEvenRow ? offsetX : -offsetX
-        let targetX = CGFloat(col) * brickWidth + brickWidth / 2 + xOffset
-        let targetY = CGFloat(row) * (brickHeight - rowSpacing) + brickHeight / 2
-
-        // Mulai dari atas layar
-        brick.position = CGPoint(x: targetX, y: size.height + brickHeight)
-        brick.userData = ["targetY": targetY]
-        return brick
-    }
-
-    private func runBrickAnimation(_ brick: SKSpriteNode, row: Int) {
-        guard let targetY = brick.userData?["targetY"] as? CGFloat else { return }
-
-        let delay = 0.2 * Double(row)
-
-        let moveDown = SKAction.moveTo(y: targetY, duration: 0.5)
-        moveDown.timingMode = .easeInEaseOut
-
-        let fadeIn = SKAction.fadeIn(withDuration: 0.2)
-        let group = SKAction.group([moveDown, fadeIn])
-
-        let shake = SKAction.sequence([
-            SKAction.moveBy(x: 3, y: 0, duration: 0.05),
-            SKAction.moveBy(x: -6, y: 0, duration: 0.05),
-            SKAction.moveBy(x: 3, y: 0, duration: 0.05)
-        ])
-
-        let sequence = SKAction.sequence([
-            SKAction.wait(forDuration: delay),
-            group,
-            shake
-        ])
-
-        brick.run(sequence)
-    }
-
-    private func scheduleFinishCallback() {
-        let totalDelay = 0.3 * Double(totalRows) + 0.5
+        // Mulai animasi runtuh setelah delay
+        let collapseDelay = 0.8
         run(SKAction.sequence([
-            SKAction.wait(forDuration: totalDelay),
+            SKAction.wait(forDuration: collapseDelay),
+            SKAction.run { self.startCollapseAnimation() }
+        ]))
+    }
+    
+    private func startCollapseAnimation() {
+        let center = CGPoint(x: size.width / 2, y: size.height / 2)
+        let sortedBricks = bricks.sorted {
+            $0.position.distance(to: center) < $1.position.distance(to: center)
+        }
+
+        for (index, brick) in sortedBricks.enumerated() {
+            let delay = 0.05 * Double(index)
+            let fallDistance = -size.height - brick.size.height
+
+            let shake = SKAction.sequence([
+                SKAction.moveBy(x: 3, y: 0, duration: 0.03),
+                SKAction.moveBy(x: -6, y: 0, duration: 0.03),
+                SKAction.moveBy(x: 3, y: 0, duration: 0.03)
+            ])
+
+            let fall = SKAction.moveBy(x: 0, y: fallDistance, duration: 0.5)
+            fall.timingMode = .easeIn
+
+            let remove = SKAction.run { brick.removeFromParent() }
+
+            brick.run(SKAction.sequence([
+                SKAction.wait(forDuration: delay),
+                shake,
+                fall,
+                remove
+            ]))
+        }
+
+        let totalDuration = 0.05 * Double(bricks.count) + 0.6
+        run(SKAction.sequence([
+            SKAction.wait(forDuration: totalDuration),
             SKAction.run {
                 WKInterfaceDevice.current().play(.click)
                 self.onFinishedCollapse?()
             }
         ]))
+    }
+
+}
+
+private extension CGPoint {
+    func distance(to point: CGPoint) -> CGFloat {
+        let dx = x - point.x
+        let dy = y - point.y
+        return sqrt(dx * dx + dy * dy)
     }
 }
