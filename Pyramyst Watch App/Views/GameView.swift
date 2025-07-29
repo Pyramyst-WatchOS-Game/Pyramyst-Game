@@ -56,7 +56,6 @@ struct GameView: View {
                 }
             }
     }
-
 }
 
 #Preview {

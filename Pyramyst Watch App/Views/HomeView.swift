@@ -69,6 +69,7 @@ import SwiftUI
 import WatchKit
 
 struct HomeView: View {
+
     @StateObject private var router = MainFlowRouter()
     @State private var isPlayButtonPressed = false
     @State private var isCollectionButtonPressed = false
