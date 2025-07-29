@@ -38,7 +38,7 @@ class SuccessViewModel : ObservableObject {
     //MARK: if item by level
     func getItem(_ level: Int) -> ItemModel? {
         guard let item = manager.getItemByLevel(level) else {
-            print("❌ No item found for level \(level)")
+            print(" No item found for level \(level)")
             return nil
         }
         

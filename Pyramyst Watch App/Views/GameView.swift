@@ -22,10 +22,6 @@ struct GameView: View {
         UserDefaultManager.shared.initItems()
     }
     
-//    deinit {
-//        print("🗑️ GameView deinitialized")
-//    }
-
     var body: some View {
         SpriteView(scene: viewModel.scene)
             .ignoresSafeArea()

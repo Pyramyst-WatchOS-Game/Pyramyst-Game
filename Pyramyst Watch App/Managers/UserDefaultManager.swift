@@ -15,7 +15,7 @@ class UserDefaultManager {
     private let itemsKey = "collectedItemsKey"
     private let userLevelKey = "userLevelKey"
     
-    //MARK: Items Collectible functions
+    //MARK: - Items Collectible functions
     func loadItems() -> [ItemModel] {
         guard let data = UserDefaults.standard.data(forKey: itemsKey) else { return [] }
         do {
@@ -53,7 +53,7 @@ class UserDefaultManager {
         }
     }
     
-    //MARK: User level functions
+    //MARK: - User level functions
     func resetLevel() {
         UserDefaults.standard.set(GameLevel.one.rawValue, forKey: userLevelKey)
     }
@@ -78,7 +78,7 @@ class UserDefaultManager {
 //        return items.randomElement()
 //    }
     
-    //MARK: if item by level
+    //MARK: - if item by level
     func getItemByLevel(_ level: Int) -> ItemModel? {
         let items = loadItems()
         return items.first { $0.level == level }

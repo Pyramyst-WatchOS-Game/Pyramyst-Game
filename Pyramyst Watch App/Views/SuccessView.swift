@@ -11,16 +11,16 @@ import SpriteKit
 struct SuccessView: View {
     @EnvironmentObject var successVM: SuccessViewModel
     @EnvironmentObject var router: MainFlowRouter
-
+    
     @State private var showGucci = false
     @State private var petiOffsetX: CGFloat = 0
     @State private var petiFall = false
     @State private var showTextAndButtons = false
     @State private var hidePeti = false
-
+    
     @State private var gucciScale: CGFloat = 1.0
     @State private var gucciOffsetY: CGFloat = -30
-  
+    
     var body: some View {
         VStack {
             ZStack {
@@ -33,7 +33,7 @@ struct SuccessView: View {
                         .opacity(petiFall ? 0 : 1)
                         .animation(.easeInOut(duration: 1), value: petiFall)
                 }
-
+                
                 if showGucci {
                     Image(successVM.treasure)
                         .resizable()
@@ -45,7 +45,7 @@ struct SuccessView: View {
                         .animation(.easeInOut(duration: 1), value: gucciScale)
                         .animation(.easeInOut(duration: 1), value: gucciOffsetY)
                 }
-
+                
                 Image("tutupPeti")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -53,14 +53,14 @@ struct SuccessView: View {
                     .offset(x: petiOffsetX)
                     .animation(.easeInOut(duration: 1), value: petiOffsetX)
             }
-
+            
             if showTextAndButtons {
                 VStack(spacing: 12) {
                     Text(successVM.name)
                         .fontWeight(.bold)
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                         .animation(.easeOut(duration: 1), value: showTextAndButtons)
-
+                    
                     HStack(spacing: 12) {
                         Button(action: {
                             router.navigateToRoot()
@@ -70,14 +70,14 @@ struct SuccessView: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 80, height: 40)
-
+                                
                                 Text("Home")
                                     .font(.caption)
                                     .foregroundColor(.black)
                             }
                         }
                         .buttonStyle(NoTapAnimationStyle())
-
+                        
                         Button(action: {
                             // next lvl
                         }) {
@@ -86,7 +86,7 @@ struct SuccessView: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 80, height: 40)
-
+                                
                                 Text("Next")
                                     .font(.caption)
                                     .foregroundColor(.black)
@@ -107,17 +107,17 @@ struct SuccessView: View {
                 withAnimation {
                     petiOffsetX = -200
                 }
-
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                     withAnimation {
                         showGucci = true
                     }
-
+                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         withAnimation {
                             petiFall = true
                         }
-
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                             hidePeti = true
                             withAnimation {
@@ -140,4 +140,3 @@ struct SuccessView: View {
 #Preview {
     SuccessView()
 }
-

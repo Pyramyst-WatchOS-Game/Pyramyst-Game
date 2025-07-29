@@ -62,7 +62,7 @@
 //  HomeView.swift
 //  Pyramyst Watch App
 //
-//  Created by Ali Ganteng? on 27/07/25.
+//  Created by Ali Ganteng? jelek njir on 27/07/25.
 //
 
 import SwiftUI
