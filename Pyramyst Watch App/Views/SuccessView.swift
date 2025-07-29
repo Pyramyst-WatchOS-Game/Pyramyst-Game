@@ -1,9 +1,148 @@
+////
+////  SuccessView.swift
+////  Pyramyst Watch App
+////
+////  Created by Naela Fauzul Muna on 28/07/25.
+////
 //
-//  SuccessView.swift
-//  Pyramyst Watch App
+//import SwiftUI
+//import SpriteKit
 //
-//  Created by Naela Fauzul Muna on 28/07/25.
+//struct SuccessView: View {
+//    @EnvironmentObject var successVM: SuccessViewModel
+//    @EnvironmentObject var router: MainFlowRouter
+//    
+//    @State private var showGucci = false
+//    @State private var petiOffsetX: CGFloat = 0
+//    @State private var petiFall = false
+//    @State private var showTextAndButtons = false
+//    @State private var hidePeti = false
+//    
+//    @State private var gucciScale: CGFloat = 1.0
+//    @State private var gucciOffsetY: CGFloat = -30
+//    
+//    var body: some View {
+//        VStack {
+//            ZStack {
+//                if !hidePeti {
+//                    Image("peti")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: 150, height: 150)
+//                        .offset(y: petiFall ? 300 : 0)
+//                        .opacity(petiFall ? 0 : 1)
+//                        .animation(.easeInOut(duration: 1), value: petiFall)
+//                }
+//                
+//                if showGucci {
+//                    Image(successVM.treasure)
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: 80, height: 80)
+//                        .scaleEffect(gucciScale)
+//                        .offset(y: gucciOffsetY)
+//                        .transition(.opacity.combined(with: .scale))
+//                        .animation(.easeInOut(duration: 1), value: gucciScale)
+//                        .animation(.easeInOut(duration: 1), value: gucciOffsetY)
+//                }
+//                
+//                Image("tutupPeti")
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
+//                    .frame(width: 150, height: 150)
+//                    .offset(x: petiOffsetX)
+//                    .animation(.easeInOut(duration: 1), value: petiOffsetX)
+//            }
+//            
+//            if showTextAndButtons {
+//                VStack(spacing: 12) {
+//                    Text(successVM.name)
+//                        .fontWeight(.bold)
+//                        .transition(.move(edge: .bottom).combined(with: .opacity))
+//                        .animation(.easeOut(duration: 1), value: showTextAndButtons)
+//                    
+//                    HStack(spacing: 12) {
+//                        Button(action: {
+//                            router.navigateToRoot()
+//                        }) {
+//                            ZStack {
+//                                Image("buttonBg")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: 80, height: 40)
+//                                
+//                                Text("Home")
+//                                    .font(.caption)
+//                                    .foregroundColor(.black)
+//                            }
+//                        }
+//                        .buttonStyle(NoTapAnimationStyle())
+//                        
+//                        Button(action: {
+//                            // next lvl
+//                            let currentLevel = UserDefaultManager.shared.getCurrentLevel()
+//                            print("GameView — Level: \(currentLevel)")
+//                            router.navigateAndReplacePrevious(to: .gameView)
+//                        }) {
+//                            ZStack {
+//                                Image("buttonBg")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: 80, height: 40)
+//                                
+//                                Text("Next")
+//                                    .font(.caption)
+//                                    .foregroundColor(.black)
+//                            }
+//                        }
+//                        .buttonStyle(NoTapAnimationStyle())
+//                    }
+//                    .transition(.move(edge: .bottom).combined(with: .opacity))
+//                    .animation(.easeOut(duration: 1), value: showTextAndButtons)
+//                }
+//            }
+//        }
+//        .toolbar(.hidden, for: .navigationBar)
+//        .ignoresSafeArea()
+//        .navigationBarBackButtonHidden(true)
+//        .onAppear {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//                withAnimation {
+//                    petiOffsetX = -200
+//                }
+//                
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+//                    withAnimation {
+//                        showGucci = true
+//                    }
+//                    
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                        withAnimation {
+//                            petiFall = true
+//                        }
+//                        
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+//                            hidePeti = true
+//                            withAnimation {
+//                                showTextAndButtons = true
+//                            }
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+//                                withAnimation(.easeInOut(duration: 0.7)) {
+//                                    gucciScale = 1.5
+//                                    gucciOffsetY = 10
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 //
+//#Preview {
+//    SuccessView()
+//}
 
 import SwiftUI
 import SpriteKit
@@ -11,125 +150,138 @@ import SpriteKit
 struct SuccessView: View {
     @EnvironmentObject var successVM: SuccessViewModel
     @EnvironmentObject var router: MainFlowRouter
-    
+
     @State private var showGucci = false
     @State private var petiOffsetX: CGFloat = 0
     @State private var petiFall = false
     @State private var showTextAndButtons = false
     @State private var hidePeti = false
-    
+
     @State private var gucciScale: CGFloat = 1.0
     @State private var gucciOffsetY: CGFloat = -30
-    
+
+    @State private var viewSize: CGSize = .zero
+
     var body: some View {
-        VStack {
+        GeometryReader { geometry in
             ZStack {
-                if !hidePeti {
-                    Image("peti")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 150, height: 150)
-                        .offset(y: petiFall ? 300 : 0)
-                        .opacity(petiFall ? 0 : 1)
-                        .animation(.easeInOut(duration: 1), value: petiFall)
-                }
-                
-                if showGucci {
-                    Image(successVM.treasure)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 80, height: 80)
-                        .scaleEffect(gucciScale)
-                        .offset(y: gucciOffsetY)
-                        .transition(.opacity.combined(with: .scale))
-                        .animation(.easeInOut(duration: 1), value: gucciScale)
-                        .animation(.easeInOut(duration: 1), value: gucciOffsetY)
-                }
-                
-                Image("tutupPeti")
+                Image("endGameBackground")
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 150, height: 150)
-                    .offset(x: petiOffsetX)
-                    .animation(.easeInOut(duration: 1), value: petiOffsetX)
-            }
-            
-            if showTextAndButtons {
-                VStack(spacing: 12) {
-                    Text(successVM.name)
-                        .fontWeight(.bold)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                        .animation(.easeOut(duration: 1), value: showTextAndButtons)
-                    
-                    HStack(spacing: 12) {
-                        Button(action: {
-                            router.navigateToRoot()
-                        }) {
-                            ZStack {
-                                Image("buttonBg")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 80, height: 40)
-                                
-                                Text("Home")
-                                    .font(.caption)
-                                    .foregroundColor(.black)
-                            }
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: geometry.size.width , height: geometry.size.height)
+//                    .offset(y: -geometry.size.height * 0.018)
+                    .clipped()
+                VStack {
+                    ZStack {
+                        if !hidePeti {
+                            Image("peti")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.8)
+                                .offset(y: petiFall ? geometry.size.height : 0)
+                                .opacity(petiFall ? 0 : 1)
+                                .animation(.easeInOut(duration: 1), value: petiFall)
                         }
-                        .buttonStyle(NoTapAnimationStyle())
                         
-                        Button(action: {
-                            // next lvl
-                            let currentLevel = UserDefaultManager.shared.getCurrentLevel()
-                            print("GameView — Level: \(currentLevel)")
-                            router.navigateAndReplacePrevious(to: .gameView)
-                        }) {
-                            ZStack {
-                                Image("buttonBg")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 80, height: 40)
-                                
-                                Text("Next")
-                                    .font(.caption)
-                                    .foregroundColor(.black)
-                            }
+                        if showGucci {
+                            Image(successVM.treasure)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
+                                .scaleEffect(gucciScale)
+                                .offset(y: gucciOffsetY)
+                                .transition(.opacity.combined(with: .scale))
+                                .animation(.easeInOut(duration: 1), value: gucciScale)
+                                .animation(.easeInOut(duration: 1), value: gucciOffsetY)
                         }
-                        .buttonStyle(NoTapAnimationStyle())
+                        
+                        Image("tutupPeti")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.8)
+                            .offset(x: petiOffsetX)
+                            .animation(.easeInOut(duration: 1), value: petiOffsetX)
                     }
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-                    .animation(.easeOut(duration: 1), value: showTextAndButtons)
-                }
-            }
-        }
-        .toolbar(.hidden, for: .navigationBar)
-        .ignoresSafeArea()
-        .navigationBarBackButtonHidden(true)
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                withAnimation {
-                    petiOffsetX = -200
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                    withAnimation {
-                        showGucci = true
-                    }
+                    .frame(maxHeight: geometry.size.height * 0.6)
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    if showTextAndButtons {
+                        VStack(spacing: geometry.size.height * 0.06) {
+                            Text(successVM.name)
+                                .fontWeight(.bold)
+                                .font(.system(size: geometry.size.width * 0.1))
+                                .transition(.move(edge: .bottom).combined(with: .opacity))
+                                .animation(.easeOut(duration: 1), value: showTextAndButtons)
+                            
+                            HStack(spacing: geometry.size.width * 0.06) {
+                                Button(action: {
+                                    router.navigateToRoot()
+                                }) {
+                                    ZStack {
+                                        Image("homeButton")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.2)
+                                        
+//                                        Text("Home")
+//                                            .font(.system(size: geometry.size.width * 0.08))
+//                                            .foregroundColor(.black)
+                                    }
+                                }
+                                .buttonStyle(NoTapAnimationStyle())
+                                
+                                Button(action: {
+                                    let currentLevel = UserDefaultManager.shared.getCurrentLevel()
+                                    print("GameView — Level: \(currentLevel)")
+                                    router.navigateAndReplacePrevious(to: .gameView)
+                                }) {
+                                    ZStack {
+                                        Image("nextButton")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.2)
+                                        
+//                                        Text("Next")
+//                                            .font(.system(size: geometry.size.width * 0.08))
+//                                            .foregroundColor(.black)
+                                    }
+                                }
+                                .buttonStyle(NoTapAnimationStyle())
+                            }
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                            .animation(.easeOut(duration: 1), value: showTextAndButtons)
+                        }
+                        .frame(maxHeight: geometry.size.height * 0.4)
+                    }
+                }
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .onAppear {
+                    viewSize = geometry.size
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         withAnimation {
-                            petiFall = true
+                            petiOffsetX = -viewSize.width
                         }
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                            hidePeti = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                             withAnimation {
-                                showTextAndButtons = true
+                                showGucci = true
                             }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                withAnimation(.easeInOut(duration: 0.7)) {
-                                    gucciScale = 1.5
-                                    gucciOffsetY = 10
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                withAnimation {
+                                    petiFall = true
+                                }
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                                    hidePeti = true
+                                    withAnimation {
+                                        showTextAndButtons = true
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                        withAnimation(.easeInOut(duration: 0.7)) {
+                                            gucciScale = 1.5
+                                            gucciOffsetY = 10
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -137,6 +289,9 @@ struct SuccessView: View {
                 }
             }
         }
+        .toolbar(.hidden, for: .navigationBar)
+        .ignoresSafeArea()
+        .navigationBarBackButtonHidden(true)
     }
 }
 
