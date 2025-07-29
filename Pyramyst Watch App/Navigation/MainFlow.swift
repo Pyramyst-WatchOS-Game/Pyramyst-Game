@@ -14,6 +14,7 @@ enum MainFlow: NavigationDestination {
     case inventoryView
     case gameOver
     case success
+    case storyView
     
     var title: String {
         switch self {
@@ -27,6 +28,8 @@ enum MainFlow: NavigationDestination {
             return "Game Over"
         case .success:
             return "Success"
+        case .storyView:
+            return ""
         }
     }
     
@@ -37,6 +40,7 @@ enum MainFlow: NavigationDestination {
         case .inventoryView: InventoryView()
         case .gameOver: GameOverView()
         case .success: SuccessView()
+        case .storyView: StoryView()
         }
     }
 }

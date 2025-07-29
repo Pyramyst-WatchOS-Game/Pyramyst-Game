@@ -22,9 +22,9 @@ struct GameView: View {
         UserDefaultManager.shared.initItems()
     }
     
-    deinit {
-        print("🗑️ GameView deinitialized")
-    }
+//    deinit {
+//        print("🗑️ GameView deinitialized")
+//    }
 
     var body: some View {
         SpriteView(scene: viewModel.scene)
@@ -49,6 +49,7 @@ struct GameView: View {
             .onChange(of: viewModel.isGameOver) { _, isGameOver in
                 if isGameOver {
                     router.navigateAndReplacePrevious(to: .gameOver)
+                    viewModel.isGameOver = false
                 }
             }
             .onChange(of: viewModel.isGameCompleted) { _, isCompleted in
