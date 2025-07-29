@@ -6,8 +6,6 @@
 //
 
 import Foundation
-// gatot
-// alie
 
 enum GameLevel: Int, Codable {
     case one = 1

@@ -22,10 +22,6 @@ struct GameView: View {
         UserDefaultManager.shared.initItems()
     }
     
-//    deinit {
-//        print("🗑️ GameView deinitialized")
-//    }
-
     var body: some View {
         SpriteView(scene: viewModel.scene)
             .ignoresSafeArea()
@@ -55,7 +51,7 @@ struct GameView: View {
             .onChange(of: viewModel.isGameCompleted) { _, isCompleted in
                 if isCompleted {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        successVM.getItem(4)
+                        successVM.getItem(1)
                         router.navigateTo(.success)
                     }
                 }

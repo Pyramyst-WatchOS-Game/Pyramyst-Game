@@ -45,7 +45,6 @@ class SuccessScene: SKScene {
     }
 
     // MARK: - Setup Methods
-
     private func setupScene() {
         backgroundColor = .black
     }
