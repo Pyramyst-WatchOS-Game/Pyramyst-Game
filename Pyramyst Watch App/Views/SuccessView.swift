@@ -11,33 +11,133 @@ import SpriteKit
 struct SuccessView: View {
     @EnvironmentObject var successVM: SuccessViewModel
     @EnvironmentObject var router: MainFlowRouter
-    
-    init () {
-        print("SuccessView initialized")
-        
-    }
-    
-    var body: some View {
-        ZStack {
-            if let scene = successVM.successScene {
-                SpriteView(scene: scene)
-            } else {
-               ProgressView()
-            }
-        }
-        .navigationBarHidden(true)
-        .ignoresSafeArea()
-        .onAppear {
-            if let scene = successVM.successScene {
-                print("Scene-nya ada nich: \(scene)")
-            } else {
-                print("Loh scene nil cok")
-            }
-        }
-        
 
+    @State private var showGucci = false
+    @State private var petiOffsetX: CGFloat = 0
+    @State private var petiFall = false
+    @State private var showTextAndButtons = false
+    @State private var hidePeti = false
+
+    @State private var gucciScale: CGFloat = 1.0
+    @State private var gucciOffsetY: CGFloat = -30
+  
+    var body: some View {
+        VStack {
+            ZStack {
+                if !hidePeti {
+                    Image("peti")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 150, height: 150)
+                        .offset(y: petiFall ? 300 : 0)
+                        .opacity(petiFall ? 0 : 1)
+                        .animation(.easeInOut(duration: 1), value: petiFall)
+                }
+
+                if showGucci {
+                    Image(successVM.treasure)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 80, height: 80)
+                        .scaleEffect(gucciScale)
+                        .offset(y: gucciOffsetY)
+                        .transition(.opacity.combined(with: .scale))
+                        .animation(.easeInOut(duration: 1), value: gucciScale)
+                        .animation(.easeInOut(duration: 1), value: gucciOffsetY)
+                }
+
+                Image("tutupPeti")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 150, height: 150)
+                    .offset(x: petiOffsetX)
+                    .animation(.easeInOut(duration: 1), value: petiOffsetX)
+            }
+
+            if showTextAndButtons {
+                VStack(spacing: 12) {
+                    Text(successVM.name)
+                        .fontWeight(.bold)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                        .animation(.easeOut(duration: 1), value: showTextAndButtons)
+
+                    HStack(spacing: 12) {
+                        Button(action: {
+                            router.navigateToRoot()
+                        }) {
+                            ZStack {
+                                Image("buttonBg")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 80, height: 40)
+
+                                Text("Home")
+                                    .font(.caption)
+                                    .foregroundColor(.black)
+                            }
+                        }
+                        .buttonStyle(NoTapAnimationStyle())
+
+                        Button(action: {
+                            // next lvl
+                        }) {
+                            ZStack {
+                                Image("buttonBg")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 80, height: 40)
+
+                                Text("Next")
+                                    .font(.caption)
+                                    .foregroundColor(.black)
+                            }
+                        }
+                        .buttonStyle(NoTapAnimationStyle())
+                    }
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .animation(.easeOut(duration: 1), value: showTextAndButtons)
+                }
+            }
+        }
+        .toolbar(.hidden, for: .navigationBar)
+        .ignoresSafeArea()
+        .navigationBarBackButtonHidden(true)
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                withAnimation {
+                    petiOffsetX = -200
+                }
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                    withAnimation {
+                        showGucci = true
+                    }
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        withAnimation {
+                            petiFall = true
+                        }
+
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                            hidePeti = true
+                            withAnimation {
+                                showTextAndButtons = true
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                withAnimation(.easeInOut(duration: 0.7)) {
+                                    gucciScale = 1.5
+                                    gucciOffsetY = 10
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
+
 #Preview {
     SuccessView()
 }
+

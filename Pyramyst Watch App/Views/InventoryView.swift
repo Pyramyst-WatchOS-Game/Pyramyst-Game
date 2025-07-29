@@ -15,9 +15,9 @@ struct InventoryView: View {
         print("InventoryView initialized")
     }
     
-    deinit {
-        print("InventoryView deinitialized")
-    }
+//    deinit {
+//        print("InventoryView deinitialized")
+//    }
 
     var body: some View {
         VStack {

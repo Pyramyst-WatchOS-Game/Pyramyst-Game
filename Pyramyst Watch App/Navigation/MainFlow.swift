@@ -26,7 +26,7 @@ enum MainFlow: NavigationDestination {
         case .gameOver:
             return "Game Over"
         case .success:
-            return "Success"
+            return ""
         }
     }
     

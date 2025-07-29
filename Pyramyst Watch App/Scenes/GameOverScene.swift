@@ -20,7 +20,7 @@ class GameOverScene: SKScene {
         let brickWidth: CGFloat = 50
         let brickHeight: CGFloat = 50
         let totalCols = 6
-        let totalRows = 7
+        let totalRows = 6
         let offsetX: CGFloat = 15
         let spacingY: CGFloat = 5
         
@@ -82,24 +82,31 @@ class GameOverScene: SKScene {
 
             let remove = SKAction.run { brick.removeFromParent() }
 
-            brick.run(SKAction.sequence([
-                SKAction.wait(forDuration: delay),
-                shake,
-                fall,
-                remove
-            ]))
+            var actions: [SKAction] = []
+            actions.append(SKAction.wait(forDuration: delay))
+
+            // haptic setiap 5 batu
+            if index % 5 == 0 {
+                actions.append(SKAction.run {
+                    WKInterfaceDevice.current().play(.click)
+                })
+            }
+
+            actions.append(contentsOf: [shake, fall, remove])
+
+            brick.run(SKAction.sequence(actions))
         }
 
         let totalDuration = 0.05 * Double(bricks.count) + 0.6
         run(SKAction.sequence([
             SKAction.wait(forDuration: totalDuration),
             SKAction.run {
+                // Haptic terakhir setelah semua runtuh
                 WKInterfaceDevice.current().play(.click)
                 self.onFinishedCollapse?()
             }
         ]))
     }
-
 }
 
 private extension CGPoint {
