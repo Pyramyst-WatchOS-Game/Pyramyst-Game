@@ -11,18 +11,23 @@ import WatchKit
 
 class GameOverViewModel: ObservableObject {
     @Published var showGameOverModal: Bool = false
+    
+    var manager = UserDefaultManager()
+    
     let gameOverScene: GameOverScene
     
     init() {
-        let size = CGSize(width: 184, height: 224)
-        let scene = GameOverScene(size: size)
-        scene.scaleMode = .resizeFill
         
-        self.gameOverScene = scene
+        let screenBounds = WKInterfaceDevice.current().screenBounds
+        let screenSize = CGSize(width: screenBounds.width, height: screenBounds.height)
         
-        // set closure 
+        let gameOverScene = GameOverScene(size: screenSize)
+        gameOverScene.scaleMode = .aspectFill
+        
+        self.gameOverScene = gameOverScene
+        
         DispatchQueue.main.async { [weak self] in
-            scene.onFinishedCollapse = {
+            gameOverScene.onFinishedCollapse = {
                 self?.showGameOverModal = true
             }
         }
@@ -38,6 +43,7 @@ class GameOverViewModel: ObservableObject {
     }
     
     func resetGame() {
+        manager.resetLevel()
     }
     
     func restartGame() {

@@ -7,62 +7,105 @@
 
 import Foundation
 import SpriteKit
-import SwiftUI
 import WatchKit
 
 class GameOverScene: SKScene {
     var onFinishedCollapse: (() -> Void)?
     
+    private var bricks: [SKSpriteNode] = []
+    
     override func sceneDidLoad() {
         backgroundColor = .black
         
-        // Tambah tembok
-        let wall = SKSpriteNode(color: .gray, size: CGSize(width: 100, height: 20))
-        wall.name = "wall_gameover"
-        wall.position = CGPoint(x: size.width/2, y: size.height/2)
-        addChild(wall)
+        let brickWidth: CGFloat = 50
+        let brickHeight: CGFloat = 50
+        let totalCols = 6
+        let totalRows = 7
+        let offsetX: CGFloat = 15
+        let spacingY: CGFloat = 5
         
-        // Tambah label Game Over
-        let gameOverLabel = SKLabelNode(text: "Dih kalah awokawok..")
-        gameOverLabel.fontSize = 18
-        gameOverLabel.fontColor = .white
-        gameOverLabel.position = CGPoint(x: size.width/2, y: size.height/2 + 30)
-        addChild(gameOverLabel)
-        
-        // Trigger animasi tembok jatuh setelah scene muncul
+        for row in 0..<totalRows {
+            let isEvenRow = row % 2 == 0
+            let extraCol = isEvenRow ? 1 : 0
+
+            for col in (-extraCol)..<totalCols {
+                let brickIndex = Int.random(in: 1...5)
+                let brickName = "brick\(brickIndex)"
+                let brick = SKSpriteNode(imageNamed: brickName)
+                brick.size = CGSize(width: brickWidth, height: brickHeight)
+
+                let posX = CGFloat(col) * brickWidth + brickWidth / 2 + (isEvenRow ? offsetX : -offsetX)
+                let posY = CGFloat(row) * (brickHeight - spacingY) + brickHeight / 2
+
+                brick.position = CGPoint(x: posX, y: posY)
+                brick.name = "brick_\(row)_\(col)"
+                
+                // Awal: kecil
+                brick.setScale(0.0)
+                
+                addChild(brick)
+                bricks.append(brick)
+
+                // Animasi membesar
+                let scaleUp = SKAction.scale(to: 1.0, duration: 0.8)
+                scaleUp.timingMode = .easeOut
+                brick.run(scaleUp)
+            }
+        }
+
+        // Mulai animasi runtuh setelah delay
+        let collapseDelay = 0.8
         run(SKAction.sequence([
-            SKAction.wait(forDuration: 0.3),
-            SKAction.run { [weak self] in self?.collapseWall() }
+            SKAction.wait(forDuration: collapseDelay),
+            SKAction.run { self.startCollapseAnimation() }
         ]))
     }
     
-    private func collapseWall() {
-        guard let wall = childNode(withName: "wall_gameover") else { return }
+    private func startCollapseAnimation() {
+        let center = CGPoint(x: size.width / 2, y: size.height / 2)
+        let sortedBricks = bricks.sorted {
+            $0.position.distance(to: center) < $1.position.distance(to: center)
+        }
 
-        // Tambahkan efek rotasi + jatuh + fade
-        let collapseAnimation = SKAction.group([
-            SKAction.rotate(byAngle: .pi / 2, duration: 0.4),
-            SKAction.moveBy(x: 0, y: -60, duration: 0.4),
-            SKAction.fadeOut(withDuration: 0.4)
-        ])
-        
-        let sequence = SKAction.sequence([
-            collapseAnimation,
-            SKAction.removeFromParent()
-        ])
-        
-        wall.run(sequence)
+        for (index, brick) in sortedBricks.enumerated() {
+            let delay = 0.05 * Double(index)
+            let fallDistance = -size.height - brick.size.height
 
-        // Getar saat runtuh
-        WKInterfaceDevice.current().play(.failure)
+            let shake = SKAction.sequence([
+                SKAction.moveBy(x: 3, y: 0, duration: 0.03),
+                SKAction.moveBy(x: -6, y: 0, duration: 0.03),
+                SKAction.moveBy(x: 3, y: 0, duration: 0.03)
+            ])
 
-        // Tampilkan modal 1 detik setelah tembok hilang
+            let fall = SKAction.moveBy(x: 0, y: fallDistance, duration: 0.5)
+            fall.timingMode = .easeIn
+
+            let remove = SKAction.run { brick.removeFromParent() }
+
+            brick.run(SKAction.sequence([
+                SKAction.wait(forDuration: delay),
+                shake,
+                fall,
+                remove
+            ]))
+        }
+
+        let totalDuration = 0.05 * Double(bricks.count) + 0.6
         run(SKAction.sequence([
-            SKAction.wait(forDuration: 1.0),
-            SKAction.run { [weak self] in
-                self?.onFinishedCollapse?()
+            SKAction.wait(forDuration: totalDuration),
+            SKAction.run {
+                WKInterfaceDevice.current().play(.click)
+                self.onFinishedCollapse?()
             }
         ]))
     }
+
 }
 
+private extension CGPoint {
+    func distance(to point: CGPoint) -> CGFloat {
+        let dx = x - point.x
+        let dy = y - point.y
+        return sqrt(dx * dx + dy * dy)
+    }
+}

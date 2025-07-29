@@ -17,10 +17,10 @@ struct GamePlayModel {
     
     init(level: Int) {
         self.level = level
-        self.timeLimit = 20.0
+        self.timeLimit = 20 - Double(level)
         self.firstCode = Int.random(in: 0...49)
         self.secondCode = Int.random(in: 0...74)
         self.thirdCode = Int.random(in: 0...99)
-        self.currentCircle = 1 
+        self.currentCircle = 1
     }
 }

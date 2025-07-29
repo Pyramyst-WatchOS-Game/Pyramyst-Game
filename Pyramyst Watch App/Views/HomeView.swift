@@ -72,7 +72,7 @@ struct HomeView: View {
     @StateObject private var router = MainFlowRouter()
     @State private var isPlayButtonPressed = false
     @State private var isCollectionButtonPressed = false
-    
+
     var body: some View {
         NavigationStack(path: $router.navPaths) {
             mainView
@@ -157,7 +157,7 @@ struct HomeView: View {
         }
         
         print("Navigating to collectibles")
-        router.navigateTo(.collectibleView)
+        router.navigateTo(.inventoryView)
     }
 }
 

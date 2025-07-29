@@ -1,5 +1,5 @@
 //
-//  CollectibleViewModel.swift
+//  InventoryViewModel.swift
 //  Pyramyst
 //
 //  Created by Muhamad Gatot Supiadin on 27/07/25.
@@ -9,7 +9,7 @@ import Foundation
 import SpriteKit
 import Combine
 
-class CollectibleViewModel: ObservableObject {
+class InventoryViewModel: ObservableObject {
     
     @Published var items: [ItemModel] = []
     private let manager = UserDefaultManager.shared
@@ -20,7 +20,8 @@ class CollectibleViewModel: ObservableObject {
     }
     
     func loadItem () {
-        items = manager.loadItems().sorted{ ($0.collectedDate ?? .distantPast) > ($1.collectedDate ?? .distantPast) }
+//        items = manager.loadItems().sorted{ ($0.collectedDate ?? .distantPast) > ($1.collectedDate ?? .distantPast) } // Sort by date
+        items = manager.loadItems().sorted{ $0.level < $1.level } // sort by level
     }
     
     func toggleCollected(for item: ItemModel) {

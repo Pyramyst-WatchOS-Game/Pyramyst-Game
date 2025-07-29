@@ -11,6 +11,9 @@ struct GameOverModalSheet: View {
     let onRetry: () -> Void
     let onQuit: () -> Void
 
+    @State private var isRetryPressed = false
+    @State private var isQuitPressed = false
+
     var body: some View {
         VStack(spacing: 16) {
             Text("Game Over")
@@ -18,21 +21,56 @@ struct GameOverModalSheet: View {
                 .fontWeight(.bold)
                 .padding(.bottom, 10)
 
-            HStack(spacing: 20) {
-                Button(action: onRetry) {
-                    Text("Retry")
-                        .frame(minWidth: 60)
-                }
-                .buttonStyle(.borderedProminent)
+            HStack(spacing: 10) {
+                Button(action: {
+                    isRetryPressed = true
+                    onRetry()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        isRetryPressed = false
+                    }
+                }) {
+                    ZStack {
+                        Image(isRetryPressed ? "clickedBtn" : "buttonBg")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100, height: 50)
+                            .cornerRadius(8)
+                        Text("Retry")
+                            .foregroundColor(.black)
+                            .fontWeight(.bold)
+                    }
+                }.buttonStyle(.plain)
 
-                Button(action: onQuit) {
-                    Text("Quit")
-                        .frame(minWidth: 60)
+                Button(action: {
+                    isQuitPressed = true
+                    onQuit()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        isQuitPressed = false
+                    }
+                }) {
+                    ZStack {
+                        Image(isQuitPressed ? "clickedBtn" : "buttonBg")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100, height: 50)
+                            .cornerRadius(8)
+                        Text("Home")
+                            .foregroundColor(.black)
+                            .fontWeight(.bold)
+                    }
                 }
-                .buttonStyle(.bordered)
-            }
+                .buttonStyle(.plain)
+               
+            }.padding(.horizontal,10)
         }
         .padding()
     }
 }
 
+#Preview {
+    GameOverModalSheet {
+        print("Retry pressed")
+    } onQuit: {
+        print("Home pressed")
+    }
+}

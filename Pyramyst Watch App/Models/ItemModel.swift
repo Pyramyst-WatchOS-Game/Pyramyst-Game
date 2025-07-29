@@ -12,4 +12,5 @@ struct ItemModel: Codable, Identifiable, Hashable {
     var image: String
     var isCollected: Bool = false
     var collectedDate: Date?
+    var level: Int
 }

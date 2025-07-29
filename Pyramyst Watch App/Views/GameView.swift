@@ -9,11 +9,17 @@ import SwiftUI
 import SpriteKit
 
 struct GameView: View {
+    
     @StateObject private var viewModel: GameViewModel
     @EnvironmentObject var router: MainFlowRouter
+    @EnvironmentObject var successVM: SuccessViewModel
     
-    init(gameModel: GamePlayModel = GamePlayModel(level: 1)) {
+    init() {
+        print("🎯 Creating NEW GameViewModel instance: \(UUID())")
+        
+        let gameModel: GamePlayModel = GamePlayModel(level: 1)
         self._viewModel = StateObject(wrappedValue: GameViewModel(gameModel: gameModel))
+        UserDefaultManager.shared.initItems()
     }
 
     var body: some View {
@@ -38,18 +44,21 @@ struct GameView: View {
             }
             .onChange(of: viewModel.isGameOver) { _, isGameOver in
                 if isGameOver {
-                    // Navigate to game over scene
-                    router.navigateBack() // For now, go back to home
+                    router.navigateAndReplacePrevious(to: .gameOver)
                 }
             }
             .onChange(of: viewModel.isGameCompleted) { _, isCompleted in
                 if isCompleted {
-                    // Navigate to success scene or next level
-                    router.navigateBack() // For now, go back to home
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        successVM.getItem(4)
+                        router.navigateTo(.success)
+                    }
                 }
             }
     }
+
 }
+
 #Preview {
     GameView()
 }
