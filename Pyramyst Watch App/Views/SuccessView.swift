@@ -207,10 +207,20 @@ struct SuccessView: View {
                     if showTextAndButtons {
                         VStack(spacing: geometry.size.height * 0.06) {
                             Text(successVM.name)
-                                .fontWeight(.bold)
-                                .font(.system(size: geometry.size.width * 0.1))
-                                .transition(.move(edge: .bottom).combined(with: .opacity))
-                                .animation(.easeOut(duration: 1), value: showTextAndButtons)
+                              .font(.custom("LuckiestGuy-Regular", size: geometry.size.width * 0.1))
+                              .transition(.move(edge: .bottom).combined(with: .opacity))
+                              .animation(.easeOut(duration: 1), value: showTextAndButtons)
+                              .foregroundColor(Color(uiColor: UIColor(named: "textColor") ?? .white))
+                              .shadow(color: Color(uiColor: UIColor(named: "strokeColor") ?? .black), radius: 0, x:  0.7, y:  0.7)
+                              .shadow(color: Color(uiColor: UIColor(named: "strokeColor") ?? .black), radius: 0, x: -0.7, y:  0.7)
+                              .shadow(color: Color(uiColor: UIColor(named: "strokeColor") ?? .black), radius: 0, x:  0.7, y: -0.7)
+                              .shadow(color: Color(uiColor: UIColor(named: "strokeColor") ?? .black), radius: 0, x: -0.7, y: -0.7)
+                            
+//                            Text(successVM.name)
+//                                .fontWeight(.bold)
+//                                .font(.system(size: geometry.size.width * 0.1))
+//                                .transition(.move(edge: .bottom).combined(with: .opacity))
+//                                .animation(.easeOut(duration: 1), value: showTextAndButtons)
                             
                             HStack(spacing: geometry.size.width * 0.06) {
                                 Button(action: {
@@ -227,7 +237,7 @@ struct SuccessView: View {
 //                                            .foregroundColor(.black)
                                     }
                                 }
-                                .buttonStyle(NoTapAnimationStyle())
+                                .buttonStyle(.plain)
                                 
                                 Button(action: {
                                     let currentLevel = UserDefaultManager.shared.getCurrentLevel()
@@ -245,7 +255,7 @@ struct SuccessView: View {
 //                                            .foregroundColor(.black)
                                     }
                                 }
-                                .buttonStyle(NoTapAnimationStyle())
+                                .buttonStyle(.plain)
                             }
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                             .animation(.easeOut(duration: 1), value: showTextAndButtons)
