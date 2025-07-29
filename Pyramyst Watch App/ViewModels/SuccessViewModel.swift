@@ -14,13 +14,14 @@ class SuccessViewModel : ObservableObject {
     @Published var successScene: SuccessScene? = nil
     
     func launchScene(image: String, name: String) {
-        
+
         let screenBounds = WKInterfaceDevice.current().screenBounds
         let screenSize = CGSize(width: screenBounds.width, height: screenBounds.height)
         
         
         let scene = SuccessScene(size: screenSize, treasureImageName: image, treasureText: name)
         scene.scaleMode = .aspectFill
+
         self.successScene = scene
     }
 
