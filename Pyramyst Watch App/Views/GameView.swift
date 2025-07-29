@@ -40,6 +40,13 @@ struct GameView: View {
             } label: {
                 Text("sukses")
             }
+            
+            Button {
+                router.navigateTo(to: .gameOver)
+
+            } label: {
+                Text("kalah")
+            }
 
         }
 }

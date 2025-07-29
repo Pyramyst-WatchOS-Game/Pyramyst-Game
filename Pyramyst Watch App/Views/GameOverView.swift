@@ -16,6 +16,8 @@ struct GameOverView: View {
         ZStack {
             SpriteView(scene: gameOverVM.gameOverScene)
         }
+        .navigationBarBackButtonHidden(true)
+        .ignoresSafeArea()
         .sheet(isPresented: $gameOverVM.showGameOverModal) {
             GameOverModalSheet(
                 onRetry: {
