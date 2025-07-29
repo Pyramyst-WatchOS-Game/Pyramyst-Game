@@ -66,4 +66,21 @@ class UserDefaultManager {
         let rawValue = UserDefaults.standard.integer(forKey: userLevelKey)
         return GameLevel(rawValue: rawValue) ?? .one
     }
+    
+    //MARK: if item by random
+//    func getRandomItem() -> ItemModel? {
+//        let items = loadItems()
+//        
+//        if let uncollectedItem = items.filter({ $0.isCollected == false }).randomElement() {
+//            return uncollectedItem
+//        }
+//        
+//        return items.randomElement()
+//    }
+    
+    //MARK: if item by level
+    func getItemByLevel(_ level: Int) -> ItemModel? {
+        let items = loadItems()
+        return items.first { $0.level == level }
+    }
 }

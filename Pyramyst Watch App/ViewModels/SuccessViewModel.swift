@@ -25,4 +25,30 @@ class SuccessViewModel : ObservableObject {
     func updateCollectibles(id: UUID, isCollected: Bool, date: Date) {
         manager.updateItem(id: id, isCollected: isCollected, date: date)
     }
+    
+    //MARK: if item by level
+    func getItem(_ level: Int) -> ItemModel? {
+        guard let item = manager.getItemByLevel(level) else {
+            print("❌ No item found for level \(level)")
+            return nil
+        }
+
+        updateCollectibles(id: item.id, isCollected: true, date: Date())
+        launchScene(image: item.image, name: item.name)
+        return item
+    }
+    
+    //MARK: if item by random
+//    func getRandomItemFromManager() {
+//        guard let item = manager.getRandomItem() else {
+//            print("No Items Found from getRandomItemFromManager")
+//            return
+//        }
+//        
+//        if !item.isCollected {
+//            updateCollectibles(id: item.id, isCollected: true, date: Date())
+//        }
+//        
+//        launchScene(image: item.image, name: item.name)
+//    }
 }

@@ -12,6 +12,10 @@ struct GameView: View {
     @StateObject private var viewModel = GameViewModel()
     @EnvironmentObject var successVM: SuccessViewModel
     @EnvironmentObject var router : Router
+    
+    init() {
+        UserDefaultManager.shared.initItems()
+    }
 
         var body: some View {
             SpriteView(scene: viewModel.scene)
@@ -29,10 +33,8 @@ struct GameView: View {
                 }
             
             Button {
-                let treasureName = "Mahkota mesir"
-                let treaseureImage = "treasure"
-                
-                successVM.launchScene(image: treaseureImage, name: treasureName)
+                // How to get item in every success scene
+                successVM.getItem(4)
                 router.navigateTo(to: .success)
 
             } label: {

@@ -37,8 +37,8 @@ struct InventoryView: View {
                                 Text(item.isCollected ? item.name : "???")
                                     .font(.system(size: 12, weight: .bold))
 
-                                Text(item.isCollected ? "Collected" : "Not Collected")
-                                    .font(.system(size: 8))
+                                Text(item.isCollected ? "Level \(item.level)" : "???")
+                                    .font(.system(size: 8, weight: .bold))
                                     .foregroundColor(.secondary)
                             }
 

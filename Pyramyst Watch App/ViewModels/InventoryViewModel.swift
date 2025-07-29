@@ -20,7 +20,8 @@ class InventoryViewModel: ObservableObject {
     }
     
     func loadItem () {
-        items = manager.loadItems().sorted{ ($0.collectedDate ?? .distantPast) > ($1.collectedDate ?? .distantPast) }
+//        items = manager.loadItems().sorted{ ($0.collectedDate ?? .distantPast) > ($1.collectedDate ?? .distantPast) } // Sort by date
+        items = manager.loadItems().sorted{ $0.level < $1.level } // sort by level
     }
     
     func toggleCollected(for item: ItemModel) {
