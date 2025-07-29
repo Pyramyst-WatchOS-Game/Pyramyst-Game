@@ -32,7 +32,7 @@ struct GameOverView: View {
                         router.navigateTo(.gameView)
                     },
                     onQuit: {
-                        gameOverVM.resetGame()
+//                        gameOverVM.resetGame()
                         router.navigateToRoot()
                     }
                 )

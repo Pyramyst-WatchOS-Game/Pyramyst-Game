@@ -13,11 +13,14 @@ struct GameView: View {
     @StateObject private var viewModel: GameViewModel
     @EnvironmentObject var router: MainFlowRouter
     @EnvironmentObject var successVM: SuccessViewModel
+    private var manager = UserDefaultManager.shared
     
     init() {
         print("🎯 Creating NEW GameViewModel instance: \(UUID())")
-        
-        let gameModel: GamePlayModel = GamePlayModel(level: 1)
+    
+        let level = manager.getCurrentLevel()
+        print("current level from gameview: \(level)")
+        let gameModel: GamePlayModel = GamePlayModel(level: level > 0 ? level : 1)
         self._viewModel = StateObject(wrappedValue: GameViewModel(gameModel: gameModel))
         UserDefaultManager.shared.initItems()
     }
@@ -51,7 +54,7 @@ struct GameView: View {
             .onChange(of: viewModel.isGameCompleted) { _, isCompleted in
                 if isCompleted {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        successVM.getItem(1)
+                        successVM.getItem(manager.getCurrentLevel() - 1)
                         router.navigateTo(.success)
                     }
                 }

@@ -17,7 +17,10 @@ struct GamePlayModel {
     
     init(level: Int) {
         self.level = level
-        self.timeLimit = 20 - Double(level)
+        let baseTime = 25.0
+        let decrementPerLevel = 1.0
+        let calculatedTime = baseTime - (Double(level - 1) * decrementPerLevel)
+        self.timeLimit = max(5.0, calculatedTime)
         self.firstCode = Int.random(in: 0...49)
         self.secondCode = Int.random(in: 0...74)
         self.thirdCode = Int.random(in: 0...99)
