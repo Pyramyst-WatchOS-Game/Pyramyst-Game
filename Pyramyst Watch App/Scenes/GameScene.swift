@@ -13,12 +13,20 @@ class GameScene: SKScene {
     
     private var infoLabel: SKLabelNode?
     private var timerLabel: SKLabelNode?
+    
+    private var hourglassIcon: SKSpriteNode!
+    private var barOutline: SKShapeNode!
+    private var barFill: SKSpriteNode!
+    
+    var totalTime: TimeInterval = 20
+    
     private var dialCompletionStates: [Int: Bool] = [1: false, 2: false, 3: false]
     private var dialCompletedRotations: [Int: CGFloat] = [:]
     
     override func sceneDidLoad() {
         super.sceneDidLoad()
         backgroundColor = .black
+        setupBackground()
         
         let dial0Texture = SKTexture(imageNamed: "dial0")
         let dial0 = SKSpriteNode(texture: dial0Texture)
@@ -56,12 +64,12 @@ class GameScene: SKScene {
         dial3.alpha = 1.0
         addChild(dial3)
         
-        let correctSignTexture = SKTexture(imageNamed: "correctSign")
+        let correctSignTexture = SKTexture(imageNamed: "correctSign2")
         let correctSign = SKSpriteNode(texture: correctSignTexture)
         correctSign.name = "correctSign"
-        correctSign.size = CGSize(width: size.width * 0.8, height: size.width * 0.8) // Diperbesar dari 0.2 ke 0.4
-        correctSign.position = CGPoint(x: size.width/2, y: size.height/2) // Benar-benar di tengah layar
-        correctSign.zPosition = 10
+        correctSign.size = CGSize(width: size.width * 0.8, height: size.width * 0.8)
+        correctSign.position = CGPoint(x: size.width/2, y: size.height/2)
+        correctSign.zPosition = 200
         correctSign.alpha = 0.0
         addChild(correctSign)
         
@@ -73,7 +81,7 @@ class GameScene: SKScene {
         infoLabel?.text = "Dial 1 - Code: 0"
         infoLabel?.zPosition = 4
         if let label = infoLabel {
-            addChild(label)
+//            addChild(label)
         }
         
         timerLabel = SKLabelNode(fontNamed: "HelveticaNeue-Bold")
@@ -84,14 +92,107 @@ class GameScene: SKScene {
         timerLabel?.text = "20.0"
         timerLabel?.zPosition = 4
         if let label = timerLabel {
-            addChild(label)
+//            addChild(label)
         }
+        
+        setupTimerBar()
     }
     
-    func updateGameInfo(currentCircle: Int, targetCode: Int, timeRemaining: Double) {
-        infoLabel?.text = "Dial \(currentCircle) - Target: \(targetCode)"
-        timerLabel?.text = String(format: "%.1f", max(0, timeRemaining))
+    private func setupBackground() {
+       
+        let tex = SKTexture(imageNamed: "gameBackground")
+        let backgroundNode = SKSpriteNode(texture: tex)
+        
+        backgroundNode.anchorPoint = .zero
+        backgroundNode.position    = .zero
+        
+        backgroundNode.zPosition   = -1
+    
+        backgroundNode.size       = size
+        
+        addChild(backgroundNode)
     }
+    
+    private func setupTimerBar() {
+        let margin: CGFloat = 15
+        
+        let iconSize = CGSize(width: 25, height: 25)
+        hourglassIcon = SKSpriteNode(imageNamed: "hourglassIcon")
+        hourglassIcon.size = iconSize
+        hourglassIcon.position = CGPoint(
+            x: margin + iconSize.width/2,
+            y: size.height - margin - iconSize.height/2
+        )
+        hourglassIcon.zPosition = 100
+        addChild(hourglassIcon)
+        
+        let barHeight: CGFloat = 8
+        let desiredBarWidth: CGFloat = size.width * 0.3
+        
+        let backgroundPadding: CGFloat = 8
+        let backgroundWidth = iconSize.width + desiredBarWidth
+        let backgroundHeight = max(iconSize.height, barHeight)
+        
+        let timerBackground = SKSpriteNode(imageNamed: "timerBackground")
+        timerBackground.size = CGSize(width: backgroundWidth, height: backgroundHeight)
+        
+        let spaceBetweenIconAndBar: CGFloat = -13
+        let backgroundCenterX = hourglassIcon.position.x + (backgroundWidth - iconSize.width) / 2
+        timerBackground.position = CGPoint(
+            x: backgroundCenterX,
+            y: hourglassIcon.position.y
+        )
+        timerBackground.zPosition = 80
+        addChild(timerBackground)
+        
+        barOutline = SKShapeNode(
+            rectOf: CGSize(width: desiredBarWidth, height: barHeight),
+            cornerRadius: barHeight/3
+        )
+        barOutline.lineWidth = 1.5
+        barOutline.strokeColor = UIColor(named: "outlineColor") ?? .orange
+        barOutline.fillColor = .clear
+        
+        barOutline.position = CGPoint(
+            x: hourglassIcon.position.x + iconSize.width/2 + spaceBetweenIconAndBar + desiredBarWidth/2,
+            y: hourglassIcon.position.y
+        )
+        barOutline.zPosition = 90
+        addChild(barOutline)
+        
+        barFill = SKSpriteNode(
+            color: UIColor(named: "sandColor") ?? .yellow,
+            size: CGSize(width: desiredBarWidth, height: barHeight)
+        )
+        barFill.anchorPoint = CGPoint(x: 0, y: 0.5)
+        barFill.position = CGPoint(
+            x: barOutline.position.x - desiredBarWidth/2,
+            y: hourglassIcon.position.y
+        )
+        barFill.zPosition = 95
+        addChild(barFill)
+    }
+    
+    func updateGameInfo(currentCircle: Int,
+                            targetCode: Int,
+                            timeRemaining: Double) {
+            infoLabel?.text  = "Dial \(currentCircle) - Target: \(targetCode)"
+            timerLabel?.text = String(format: "%.1f", max(0, timeRemaining))
+            
+            let frac = CGFloat(max(min(timeRemaining/totalTime, 1), 0))
+            barFill.xScale = frac
+            
+            if frac <= 0.7 {
+                if frac <= 0.5 {
+                    barFill.color = UIColor.red
+                } else {
+                    barFill.color = UIColor.orange
+                }
+            } else {
+                barFill.color = UIColor(named: "sandColor") ?? .yellow
+            }
+        }
+    
     func updateDialPosition(circle: Int, position: Int, isCorrect: Bool, isNearRange: Bool) {
         let dialName = "dial\(circle)"
         _ = childNode(withName: dialName)
