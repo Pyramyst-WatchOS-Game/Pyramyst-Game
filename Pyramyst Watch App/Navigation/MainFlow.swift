@@ -36,7 +36,7 @@ enum MainFlow: NavigationDestination {
     var destinationView: some View {
         switch self {
         case .homeView: HomeView()
-        case .gameView: GameViewWrapper()
+        case .gameView: GameView()
         case .inventoryView: InventoryView()
         case .gameOver: GameOverView()
         case .success: SuccessView()
