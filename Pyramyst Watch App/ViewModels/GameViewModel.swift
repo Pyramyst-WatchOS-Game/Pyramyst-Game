@@ -202,5 +202,6 @@ final class GameViewModel: ObservableObject {
     deinit {
         gameTimer?.invalidate()
         hapticTimer?.invalidate()
+        print("🧹 GameViewModel deinitialized: ")
     }
 }
