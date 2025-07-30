@@ -28,7 +28,6 @@ struct GameOverView: View {
 
                 GameOverModalSheet(
                     onRetry: {
-//                        sceneVM.isRetry = true
                         print("ini retry: \(sceneVM.isRetry)")
                         gameOverVM.resetModal()
                         router.navigateToRoot()
@@ -36,7 +35,6 @@ struct GameOverView: View {
                     },
                     onQuit: {
                         sceneVM.isRetry = false
-//                        gameOverVM.resetGame()
                         router.navigateToRoot()
                     }
                 )

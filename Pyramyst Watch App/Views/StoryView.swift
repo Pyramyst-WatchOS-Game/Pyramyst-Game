@@ -120,13 +120,16 @@ struct StoryView: View {
             hideChest = true
         }
         
-        await sleep(1.0)
+        await sleep(0.3)
         router.navigate(to: .gameView(UUID()))
     }
-    
-    func sleep(_ seconds: Double) async {
-        try? await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
-    }
+
+}
+
+//helper
+func sleep(_ seconds: Double) async {
+    let duration = UInt64(seconds * 1_000_000_000)
+    try? await Task.sleep(nanoseconds: duration)
 }
 
 #Preview {

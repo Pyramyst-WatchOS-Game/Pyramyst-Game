@@ -45,14 +45,12 @@ class GameOverScene: SKScene {
                 addChild(brick)
                 bricks.append(brick)
 
-                // Animasi membesar
                 let scaleUp = SKAction.scale(to: 1.0, duration: 0.8)
                 scaleUp.timingMode = .easeOut
                 brick.run(scaleUp)
             }
         }
 
-        // Mulai animasi runtuh setelah delay
         let collapseDelay = 0.8
         run(SKAction.sequence([
             SKAction.wait(forDuration: collapseDelay),
@@ -100,7 +98,6 @@ class GameOverScene: SKScene {
         run(SKAction.sequence([
             SKAction.wait(forDuration: totalDuration),
             SKAction.run {
-                // Haptic terakhir setelah semua runtuh
                 WKInterfaceDevice.current().play(.click)
                 self.onFinishedCollapse?()
             }
