@@ -72,6 +72,8 @@ struct HomeView: View {
     
     @StateObject private var router = MainFlowRouter()
     
+    @Namespace private var namespace
+    
     init() {
         print("HomeView initialized")
     }
