@@ -42,6 +42,7 @@ final class GameViewModel: ObservableObject {
     }
     
     init(gameModel: GamePlayModel) {
+        print("🎯 Creating NEW GameViewModel instance: \(UUID())")
         self.gameModel = gameModel
         self.timeRemaining = gameModel.timeLimit
         

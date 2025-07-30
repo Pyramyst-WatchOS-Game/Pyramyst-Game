@@ -29,7 +29,7 @@ struct GameOverView: View {
                     onRetry: {
                         gameOverVM.resetModal()
                         router.navigateToRoot()
-                        router.navigateTo(.gameView)
+                        router.navigateAndReplacePrevious(to : .gameView(UUID()))
                     },
                     onQuit: {
 //                        gameOverVM.resetGame()

@@ -242,7 +242,7 @@ struct SuccessView: View {
                                 Button(action: {
                                     let currentLevel = UserDefaultManager.shared.getCurrentLevel()
                                     print("GameView — Level: \(currentLevel)")
-                                    router.navigateAndReplacePrevious(to: .gameView)
+                                    router.navigate(to: .gameView(UUID()))
                                 }) {
                                     ZStack {
                                         Image("nextButton")
