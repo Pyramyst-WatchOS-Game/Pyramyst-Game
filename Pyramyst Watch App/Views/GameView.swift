@@ -10,19 +10,22 @@ import SpriteKit
 
 struct GameView: View {
     
+    let gameID: UUID
+    
     @StateObject private var viewModel: GameViewModel
     @EnvironmentObject var router: MainFlowRouter
     @EnvironmentObject var successVM: SuccessViewModel
     private var manager = UserDefaultManager.shared
     
-    init() {
+    init(gameID: UUID) {
         print("🎯 Creating NEW GameViewModel instance: \(UUID())")
     
         let level = manager.getCurrentLevel()
         print("current level from gameview: \(level)")
         let gameModel: GamePlayModel = GamePlayModel(level: level > 0 ? level : 1)
-        self._viewModel = StateObject(wrappedValue: GameViewModel(gameModel: gameModel))
-        UserDefaultManager.shared.initItems()
+        _viewModel = StateObject(wrappedValue: GameViewModel(gameModel: gameModel))
+                self.gameID = gameID
+                UserDefaultManager.shared.initItems()
     }
     
     var body: some View {
@@ -53,15 +56,21 @@ struct GameView: View {
             }
             .onChange(of: viewModel.isGameCompleted) { _, isCompleted in
                 if isCompleted {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                         successVM.getItem(manager.getCurrentLevel() - 1)
-                        router.navigateTo(.success)
+                        router.navigateAndReplacePrevious(to: .success)
                     }
                 }
             }
+            .onAppear {
+                print("🎯 GameView appeared")
+                viewModel.isGameOver = false
+                viewModel.isGameCompleted = false
+            }
+
     }
 }
 
-#Preview {
-    GameView()
-}
+//#Preview {
+//    GameView()
+//}

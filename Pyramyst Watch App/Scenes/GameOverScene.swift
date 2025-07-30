@@ -39,8 +39,7 @@ class GameOverScene: SKScene {
 
                 brick.position = CGPoint(x: posX, y: posY)
                 brick.name = "brick_\(row)_\(col)"
-                
-                // Awal: kecil
+            
                 brick.setScale(0.0)
                 
                 addChild(brick)
@@ -88,7 +87,7 @@ class GameOverScene: SKScene {
             // haptic setiap 5 batu
             if index % 5 == 0 {
                 actions.append(SKAction.run {
-                    WKInterfaceDevice.current().play(.click)
+                    WKInterfaceDevice.current().play(.directionDown)
                 })
             }
 

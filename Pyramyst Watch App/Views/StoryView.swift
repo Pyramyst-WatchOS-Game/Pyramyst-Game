@@ -11,6 +11,8 @@ struct StoryView: View {
     @State private var moveRight = false
     @EnvironmentObject var router: MainFlowRouter
     @State private var hasNavigated = false
+    
+    @State private var appearZoom = false
 
     var body: some View {
         ZStack {
@@ -36,12 +38,13 @@ struct StoryView: View {
         }
         .navigationBarBackButtonHidden(true)
         .onAppear {
+            appearZoom = true
             if hasNavigated { return }
             hasNavigated = true
             moveRight = true
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
-                router.navigate(to: .gameView)
+                router.navigate(to: .gameView(UUID()))
             }
         }
     }

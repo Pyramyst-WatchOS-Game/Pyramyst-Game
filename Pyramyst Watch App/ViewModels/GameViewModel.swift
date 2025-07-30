@@ -42,6 +42,7 @@ final class GameViewModel: ObservableObject {
     }
     
     init(gameModel: GamePlayModel) {
+        print("🎯 Creating NEW GameViewModel instance: \(UUID())")
         self.gameModel = gameModel
         self.timeRemaining = gameModel.timeLimit
         
@@ -202,5 +203,6 @@ final class GameViewModel: ObservableObject {
     deinit {
         gameTimer?.invalidate()
         hapticTimer?.invalidate()
+        print("🧹 GameViewModel deinitialized: ")
     }
 }

@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-enum MainFlow: NavigationDestination {
+enum MainFlow: NavigationDestination, Hashable {
     
     case homeView
-    case gameView
+    case gameView(UUID)
     case inventoryView
     case gameOver
     case success
@@ -21,7 +21,7 @@ enum MainFlow: NavigationDestination {
         case .homeView:
             return "Home"
         case .gameView:
-            return "Game"
+            return ""
         case .inventoryView:
             return ""
         case .gameOver:
@@ -36,13 +36,14 @@ enum MainFlow: NavigationDestination {
     var destinationView: some View {
         switch self {
         case .homeView: HomeView()
-        case .gameView: GameView()
+        case .gameView(let id): GameView(gameID: id)
         case .inventoryView: InventoryView()
         case .gameOver: GameOverView()
         case .success: SuccessView()
-        case .storyView: StoryView()
+        case .storyView: StoryView()  
         }
     }
 }
 
 typealias MainFlowRouter = Router<MainFlow>
+

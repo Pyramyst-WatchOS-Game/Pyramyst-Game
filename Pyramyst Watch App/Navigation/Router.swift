@@ -25,6 +25,7 @@ final class Router<Destination: NavigationDestination>: ObservableObject {
         navPaths.append(destination)
     }
     
+    
     func navigateBack() {
         guard !navPaths.isEmpty else { return }
         navPaths.removeLast()
