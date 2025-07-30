@@ -10,6 +10,7 @@ import SpriteKit
 
 struct GameOverView: View {
     @StateObject private var gameOverVM = GameOverViewModel()
+    @EnvironmentObject var sceneVM: SceneViewModel
     @EnvironmentObject var router: MainFlowRouter
     
     init() {
@@ -27,12 +28,15 @@ struct GameOverView: View {
 
                 GameOverModalSheet(
                     onRetry: {
+//                        sceneVM.isRetry = true
+                        print("ini retry: \(sceneVM.isRetry)")
                         gameOverVM.resetModal()
                         router.navigateToRoot()
                         router.navigateTo(.gameView)
                     },
                     onQuit: {
-                        gameOverVM.resetGame()
+                        sceneVM.isRetry = false
+//                        gameOverVM.resetGame()
                         router.navigateToRoot()
                     }
                 )

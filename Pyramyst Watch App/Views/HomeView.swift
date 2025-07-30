@@ -74,6 +74,8 @@ struct HomeView: View {
     @State private var isPlayButtonPressed = false
     @State private var isCollectionButtonPressed = false
     
+    @Namespace private var namespace
+    
     init() {
         print("HomeView initialized")
     }

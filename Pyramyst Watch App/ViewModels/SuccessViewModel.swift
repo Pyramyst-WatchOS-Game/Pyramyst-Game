@@ -27,7 +27,7 @@ class SuccessViewModel : ObservableObject {
     //        self.successScene = scene
     //    }
     
-    func updateLevel(level: GameLevel) {
+    func updateLevel(level: Int) {
         
     }
     

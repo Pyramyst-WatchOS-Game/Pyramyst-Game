@@ -55,16 +55,21 @@ class UserDefaultManager {
     
     //MARK: - User level functions
     func resetLevel() {
-        UserDefaults.standard.set(GameLevel.one.rawValue, forKey: userLevelKey)
+        UserDefaults.standard.set(1, forKey: userLevelKey)
     }
     
-    func updateLevel(_ level: GameLevel) -> Void {
-        UserDefaults.standard.set(level.rawValue, forKey: userLevelKey)
+    func updateLevel(_ level: Int) -> Void {
+        UserDefaults.standard.set(level, forKey: userLevelKey)
     }
     
-    func getCurrentLevel() -> GameLevel {
-        let rawValue = UserDefaults.standard.integer(forKey: userLevelKey)
-        return GameLevel(rawValue: rawValue) ?? .one
+    func getCurrentLevel() -> Int {
+        let level = UserDefaults.standard.integer(forKey: userLevelKey)
+        return level > 0 ? level : 1
+    }
+    
+    func goToNextLevel() {
+        let current = getCurrentLevel()
+        updateLevel(current + 1)
     }
     
     //MARK: if item by random

@@ -80,6 +80,9 @@ struct SuccessView: View {
                         
                         Button(action: {
                             // next lvl
+                            let currentLevel = UserDefaultManager.shared.getCurrentLevel()
+                            print("GameView — Level: \(currentLevel)")
+                            router.navigateAndReplacePrevious(to: .gameView)
                         }) {
                             ZStack {
                                 Image("buttonBg")
@@ -139,4 +142,5 @@ struct SuccessView: View {
 
 #Preview {
     SuccessView()
+        .environmentObject(SuccessViewModel())
 }

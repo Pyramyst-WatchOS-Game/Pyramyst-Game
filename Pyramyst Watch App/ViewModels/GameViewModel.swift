@@ -14,6 +14,7 @@ final class GameViewModel: ObservableObject {
     @Published var timeRemaining: Double = 0
     @Published var isGameCompleted: Bool = false
     @Published var isGameOver: Bool = false
+    private var manager = UserDefaultManager.shared
     
     let scene: SKScene
     private var gameTimer: Timer?
@@ -186,6 +187,7 @@ final class GameViewModel: ObservableObject {
         stopHapticFeedback()
         gameTimer?.invalidate()
         isGameCompleted = true
+        manager.goToNextLevel()
         WKInterfaceDevice.current().play(.success)
     }
     
