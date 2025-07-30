@@ -44,7 +44,7 @@ struct StoryView: View {
             moveRight = true
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
-                router.navigate(to: .gameView)
+                router.navigate(to: .gameView(UUID()))
             }
         }
     }

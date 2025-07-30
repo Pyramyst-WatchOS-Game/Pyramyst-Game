@@ -231,8 +231,8 @@ struct SuccessView: View {
 
                                 Button(action: {
                                     let currentLevel = UserDefaultManager.shared.getCurrentLevel()
-                                    print("DEBUG — Button Next Tapped. Navigating to .gameView, current level: \(currentLevel)")
-                                    router.navigateAndReplacePrevious(to: .gameView)
+                                    print("GameView — Level: \(currentLevel)")
+                                    router.navigateAndReplacePrevious(to: .gameView(UUID()))
                                 }) {
                                     Image("nextButton")
                                         .resizable()

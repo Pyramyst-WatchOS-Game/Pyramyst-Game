@@ -32,7 +32,7 @@ struct GameOverView: View {
                         print("ini retry: \(sceneVM.isRetry)")
                         gameOverVM.resetModal()
                         router.navigateToRoot()
-                        router.navigateTo(.gameView)
+                        router.navigateAndReplacePrevious(to : .gameView(UUID()))
                     },
                     onQuit: {
                         sceneVM.isRetry = false
