@@ -15,55 +15,58 @@ struct GameOverModalSheet: View {
     @State private var isQuitPressed = false
 
     var body: some View {
-        VStack(spacing: 16) {
-            Text("Game Over")
-                .font(.title2)
-                .fontWeight(.bold)
-                .padding(.bottom, 10)
+        GeometryReader { geometry in
+            ZStack {
+                Image("endGameBackground")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .clipped()
+                    .ignoresSafeArea()
 
-            HStack(spacing: 10) {
-                Button(action: {
-                    isRetryPressed = true
-                    onRetry()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        isRetryPressed = false
-                    }
-                }) {
-                    ZStack {
-                        Image(isRetryPressed ? "clickedBtn" : "buttonBg")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 100, height: 50)
-                            .cornerRadius(8)
-                        Text("Retry")
-                            .foregroundColor(.black)
-                            .fontWeight(.bold)
-                    }
-                }.buttonStyle(.plain)
+                VStack(spacing: geometry.size.height * 0.04) {
+                    Image("gameOverText")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: geometry.size.width * 0.6)
 
-                Button(action: {
-                    isQuitPressed = true
-                    onQuit()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        isQuitPressed = false
-                    }
-                }) {
-                    ZStack {
-                        Image(isQuitPressed ? "clickedBtn" : "buttonBg")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 100, height: 50)
-                            .cornerRadius(8)
-                        Text("Home")
-                            .foregroundColor(.black)
-                            .fontWeight(.bold)
+                    HStack(spacing: geometry.size.width * 0.05) {
+                        
+                        // Retry Button
+                        Button(action: {
+                            isRetryPressed = true
+                            onRetry()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                isRetryPressed = false
+                            }
+                        }) {
+                            Image("retryButton")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.2)
+                        }
+                        .buttonStyle(.plain)
+
+                        // Quit Button
+                        Button(action: {
+                            isQuitPressed = true
+                            onQuit()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                isQuitPressed = false
+                            }
+                        }) {
+                            Image("homeButton")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.2)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
-                .buttonStyle(.plain)
-               
-            }.padding(.horizontal,10)
+                .frame(width: geometry.size.width, height: geometry.size.height)
+            }
         }
-        .padding()
+        .ignoresSafeArea()
     }
 }
 
