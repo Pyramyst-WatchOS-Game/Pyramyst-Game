@@ -152,7 +152,7 @@ struct SuccessView: View {
     @EnvironmentObject var router: MainFlowRouter
 
     @State private var showGucci = false
-    @State private var petiOffsetX: CGFloat = 0
+    @State private var petiOffsetY: CGFloat = 0
     @State private var petiFall = false
     @State private var showTextAndButtons = false
     @State private var hidePeti = false
@@ -194,14 +194,15 @@ struct SuccessView: View {
                                 .transition(.opacity.combined(with: .scale))
                                 .animation(.easeInOut(duration: 1), value: gucciScale)
                                 .animation(.easeInOut(duration: 1), value: gucciOffsetY)
+                            
                         }
 
                         Image("tutupPeti")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: geometry.size.width * 0.8)
-                            .offset(x: petiOffsetX)
-                            .animation(.easeInOut(duration: 1), value: petiOffsetX)
+                            .offset(y: petiOffsetY)
+                            .animation(.easeInOut(duration: 1), value: petiOffsetY)
                     }
                     .frame(maxHeight: geometry.size.height * 0.6)
 
@@ -252,7 +253,7 @@ struct SuccessView: View {
                     viewSize = geometry.size
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         withAnimation {
-                            petiOffsetX = -viewSize.width
+                            petiOffsetY = -viewSize.height
                         }
 
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
