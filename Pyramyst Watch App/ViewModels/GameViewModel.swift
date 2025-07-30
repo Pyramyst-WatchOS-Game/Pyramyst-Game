@@ -16,7 +16,7 @@ final class GameViewModel: ObservableObject {
     @Published var isGameOver: Bool = false
     private var manager = UserDefaultManager.shared
     
-    let scene: SKScene
+    let scene: GameScene
     private var gameTimer: Timer?
     private var hapticTimer: Timer?
     
@@ -51,6 +51,7 @@ final class GameViewModel: ObservableObject {
         let lockScene = GameScene(size: screenSize)
         lockScene.scaleMode = .aspectFill
         self.scene = lockScene
+        self.scene.totalTime = gameModel.timeLimit
         
         startGame()
     }
