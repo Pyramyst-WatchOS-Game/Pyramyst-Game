@@ -18,9 +18,9 @@ class GameOverScene: SKScene {
         backgroundColor = .black
         
         let brickWidth: CGFloat = 50
-        let brickHeight: CGFloat = 50
+        let brickHeight: CGFloat = 40
         let totalCols = 6
-        let totalRows = 6
+        let totalRows = 7
         let offsetX: CGFloat = 15
         let spacingY: CGFloat = 5
         
@@ -29,7 +29,7 @@ class GameOverScene: SKScene {
             let extraCol = isEvenRow ? 1 : 0
 
             for col in (-extraCol)..<totalCols {
-                let brickIndex = Int.random(in: 1...5)
+                let brickIndex = Int.random(in: 1...4)
                 let brickName = "brick\(brickIndex)"
                 let brick = SKSpriteNode(imageNamed: brickName)
                 brick.size = CGSize(width: brickWidth, height: brickHeight)
