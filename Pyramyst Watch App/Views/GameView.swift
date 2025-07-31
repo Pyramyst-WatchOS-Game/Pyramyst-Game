@@ -79,7 +79,7 @@ struct GameView: View {
                 }
             
             if !hasShownTutorial && tutorialStep < 3 {
-                Color.black.opacity(0.7)
+                Color.black.opacity(0.5)
                     .ignoresSafeArea()
                 VStack(spacing: 20) {
                     if tutorialStep == 0 {
