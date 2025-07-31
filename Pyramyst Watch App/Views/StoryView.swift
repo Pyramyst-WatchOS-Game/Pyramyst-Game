@@ -26,11 +26,16 @@ struct StoryView: View {
             ZStack {
                 if showBackground {
                     Image("bgStory")
+//                        .resizable()
+//                        .scaledToFill()
+//                        .ignoresSafeArea()
+//                        .transition(.opacity)
+//                        .animation(.easeInOut(duration: 1.0), value: showBackground)
                         .resizable()
-                        .scaledToFill()
-                        .ignoresSafeArea()
-                        .transition(.opacity)
-                        .animation(.easeInOut(duration: 1.0), value: showBackground)
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .offset(y: -geometry.size.height * 0.07)
+//                        .clipped()
                 }
                 
                 if showPerson {
@@ -65,7 +70,7 @@ struct StoryView: View {
                         .frame(width: geometry.size.width * 0.8)
                         .offset(
                             x: hideChest ? -geometry.size.width : 0,
-                            y: -geometry.size.height * 0.26
+                            y: -geometry.size.height * 0.13
                         )
                         .scaleEffect(chestZoomIn ? 7 : 1.0)
                         .opacity(hideChest ? 0 : 1)
@@ -82,6 +87,7 @@ struct StoryView: View {
                 await playStoryAnimation()
             }
         }
+        .ignoresSafeArea(.all)
     }
     
     func playStoryAnimation() async {

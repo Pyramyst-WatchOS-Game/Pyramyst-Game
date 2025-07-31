@@ -24,7 +24,7 @@ struct GameOverModalSheet: View {
                     .clipped()
                     .ignoresSafeArea()
 
-                VStack(spacing: geometry.size.height * 0.04) {
+                VStack(spacing: geometry.size.height * 0.15) {
                     Image("gameOverText")
                         .resizable()
                         .scaledToFit()
@@ -62,8 +62,10 @@ struct GameOverModalSheet: View {
                         }
                         .buttonStyle(.plain)
                     }
+                    
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
+                .padding(.top, geometry.size.height * 0.12)
             }
         }
         .ignoresSafeArea()
