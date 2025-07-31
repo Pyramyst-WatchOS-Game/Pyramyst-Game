@@ -10,7 +10,7 @@ import Foundation
 class SceneViewModel: ObservableObject {
     let id = UUID()
     @Published var isRetry = false
-
+    
     init() {
         print("🌀 SceneViewModel created: \(id)")
     }

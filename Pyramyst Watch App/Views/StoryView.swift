@@ -26,16 +26,9 @@ struct StoryView: View {
             ZStack {
                 if showBackground {
                     Image("bgStory")
-//                        .resizable()
-//                        .scaledToFill()
-//                        .ignoresSafeArea()
-//                        .transition(.opacity)
-//                        .animation(.easeInOut(duration: 1.0), value: showBackground)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: geometry.size.width, height: geometry.size.height)
-                        .offset(y: -geometry.size.height * 0.07)
-//                        .clipped()
                 }
                 
                 if showPerson {
@@ -47,8 +40,8 @@ struct StoryView: View {
                             .frame(height: geometry.size.height)
                             .scaleEffect(moveRight ? 1 : 1.4)
                             .offset(x: moveRight ? geometry.size.width * 0.3 : 0)
-                            .offset(y: geometry.size.height * 0.2)
-                            .animation(.easeInOut(duration: 1.5), value: moveRight)
+                        //                            .offset(y: geometry.size.height * 0)
+                            .animation(.easeInOut(duration: 1), value: moveRight)
                             .padding(.top, geometry.size.height * 0.1)
                         Spacer()
                     }
@@ -94,7 +87,7 @@ struct StoryView: View {
     }
     
     func playStoryAnimation() async {
-        withAnimation(.easeInOut(duration: 1.5)) {
+        withAnimation(.easeInOut(duration: 0.1)) {
             showBackground = true
             showPerson = true
         }
@@ -108,12 +101,12 @@ struct StoryView: View {
             showBackground = false
         }
         
-        await sleep(0.7)
+        await sleep(0.1)
         withAnimation {
             showSecondBg = true
         }
         
-        await sleep(0.8)
+        await sleep(0.1)
         withAnimation {
             showChest = true
         }
@@ -132,10 +125,9 @@ struct StoryView: View {
         await sleep(0.3)
         router.navigate(to: .gameView(UUID()))
     }
-
+    
 }
 
-//helper
 func sleep(_ seconds: Double) async {
     let duration = UInt64(seconds * 1_000_000_000)
     try? await Task.sleep(nanoseconds: duration)

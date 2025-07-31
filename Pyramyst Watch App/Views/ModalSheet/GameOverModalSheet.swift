@@ -10,10 +10,10 @@ import SwiftUI
 struct GameOverModalSheet: View {
     let onRetry: () -> Void
     let onQuit: () -> Void
-
+    
     @State private var isRetryPressed = false
     @State private var isQuitPressed = false
-
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -23,13 +23,13 @@ struct GameOverModalSheet: View {
                     .frame(width: geometry.size.width, height: geometry.size.height)
                     .clipped()
                     .ignoresSafeArea()
-
+                
                 VStack(spacing: geometry.size.height * 0.15) {
                     Image("gameOverText")
                         .resizable()
                         .scaledToFit()
                         .frame(width: geometry.size.width * 0.6)
-
+                    
                     HStack(spacing: geometry.size.width * 0.05) {
                         
                         // Retry Button
@@ -46,7 +46,7 @@ struct GameOverModalSheet: View {
                                 .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.2)
                         }
                         .buttonStyle(.plain)
-
+                        
                         // Quit Button
                         Button(action: {
                             isQuitPressed = true

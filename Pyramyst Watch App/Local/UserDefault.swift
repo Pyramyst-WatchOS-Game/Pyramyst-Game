@@ -8,7 +8,6 @@
 import Foundation
 import Combine
 
-// Dummy init for 10 items collections
 let defaultCollectibleItems: [ItemModel] = [
     ItemModel(name: "The Hourglass", image: "sand", isCollected: false, level: 1),
     ItemModel(name: "Sacred Cat", image: "cat", isCollected: false, level: 2),

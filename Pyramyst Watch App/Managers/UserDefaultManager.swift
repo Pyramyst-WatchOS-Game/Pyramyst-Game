@@ -40,7 +40,7 @@ class UserDefaultManager {
         if !existingItems.isEmpty {
             return
         }
-        let defaultItems: [ItemModel] = defaultCollectibleItems // init from constant items
+        let defaultItems: [ItemModel] = defaultCollectibleItems
         saveItems(defaultItems)
     }
     
@@ -53,7 +53,6 @@ class UserDefaultManager {
         }
     }
     
-    //MARK: - User level functions
     func resetLevel() {
         UserDefaults.standard.set(1, forKey: userLevelKey)
     }
@@ -72,18 +71,6 @@ class UserDefaultManager {
         updateLevel(current + 1)
     }
     
-    //MARK: if item by random
-//    func getRandomItem() -> ItemModel? {
-//        let items = loadItems()
-//        
-//        if let uncollectedItem = items.filter({ $0.isCollected == false }).randomElement() {
-//            return uncollectedItem
-//        }
-//        
-//        return items.randomElement()
-//    }
-    
-    //MARK: - if item by level
     func getItemByLevel(_ level: Int) -> ItemModel? {
         let items = loadItems()
         return items.first { $0.level == level }

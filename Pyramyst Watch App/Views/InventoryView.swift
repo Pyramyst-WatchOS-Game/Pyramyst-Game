@@ -32,16 +32,16 @@ struct InventoryView: View {
                                 .scaledToFit()
                                 .frame(width: 32, height: 32)
                                 .foregroundColor(item.isCollected ? .green : .black)
-
+                            
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(item.isCollected ? item.name : "???")
                                     .font(.system(size: 12, weight: .bold))
-
+                                
                                 Text(item.isCollected ? "Level \(item.level)" : "???")
                                     .font(.system(size: 8, weight: .bold))
                                     .foregroundColor(.secondary)
                             }
-
+                            
                             Spacer()
                         }
                         .padding(.vertical, 8)

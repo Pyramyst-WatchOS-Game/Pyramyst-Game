@@ -13,10 +13,10 @@ struct GameView: View {
     @EnvironmentObject var router: MainFlowRouter
     @EnvironmentObject var successVM: SuccessViewModel
     private var manager = UserDefaultManager.shared
-
+    
     @State private var tutorialStep: Int = 0
     @State private var hasShownTutorial: Bool = false
-
+    
     init(gameID: UUID) {
         let level = manager.getCurrentLevel()
         let gameModel: GamePlayModel = GamePlayModel(level: level > 0 ? level : 1)
@@ -24,7 +24,7 @@ struct GameView: View {
         self.gameID = gameID
         UserDefaultManager.shared.initItems()
     }
-
+    
     var body: some View {
         ZStack {
             SpriteView(scene: viewModel.scene)
@@ -77,8 +77,7 @@ struct GameView: View {
                         }
                     }
                 }
-
-            // Tutorial overlay
+            
             if !hasShownTutorial && tutorialStep < 3 {
                 Color.black.opacity(0.7)
                     .ignoresSafeArea()
@@ -138,7 +137,3 @@ struct GameView: View {
         }
     }
 }
-
-//#Preview {
-//    GameView()
-//}

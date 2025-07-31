@@ -16,16 +16,16 @@ struct GameOverView: View {
     init() {
         print("GameOverView initialized")
     }
-
+    
     var body: some View {
         ZStack {
             SpriteView(scene: gameOverVM.gameOverScene)
                 .ignoresSafeArea()
-
+            
             if gameOverVM.showGameOverModal {
                 Color.black.opacity(0.6)
                     .ignoresSafeArea()
-
+                
                 GameOverModalSheet(
                     onRetry: {
                         print("ini retry: \(sceneVM.isRetry)")

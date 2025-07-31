@@ -81,7 +81,7 @@ class GameScene: SKScene {
         infoLabel?.text = "Dial 1 - Code: 0"
         infoLabel?.zPosition = 4
         if infoLabel != nil {
-//            addChild(label)
+            //            addChild(label)
         }
         
         timerLabel = SKLabelNode(fontNamed: "HelveticaNeue-Bold")
@@ -92,14 +92,14 @@ class GameScene: SKScene {
         timerLabel?.text = "20.0"
         timerLabel?.zPosition = 4
         if timerLabel != nil {
-//            addChild(label)
+            //            addChild(label)
         }
         
         setupTimerBar()
     }
     
     private func setupBackground() {
-       
+        
         let tex = SKTexture(imageNamed: "gameBackground")
         let backgroundNode = SKSpriteNode(texture: tex)
         
@@ -107,7 +107,7 @@ class GameScene: SKScene {
         backgroundNode.position    = .zero
         
         backgroundNode.zPosition   = -1
-    
+        
         backgroundNode.size       = size
         
         addChild(backgroundNode)
@@ -129,7 +129,7 @@ class GameScene: SKScene {
         let barHeight: CGFloat = 8
         let desiredBarWidth: CGFloat = size.width * 0.3
         
-//        let backgroundPadding: CGFloat = 8
+        //        let backgroundPadding: CGFloat = 8
         let backgroundWidth = iconSize.width + desiredBarWidth
         let backgroundHeight = max(iconSize.height, barHeight)
         
@@ -174,24 +174,24 @@ class GameScene: SKScene {
     }
     
     func updateGameInfo(currentCircle: Int,
-                            targetCode: Int,
-                            timeRemaining: Double) {
-            infoLabel?.text  = "Dial \(currentCircle) - Target: \(targetCode)"
-            timerLabel?.text = String(format: "%.1f", max(0, timeRemaining))
-            
-            let frac = CGFloat(max(min(timeRemaining/totalTime, 1), 0))
-            barFill.xScale = frac
-            
-            if frac <= 0.7 {
-                if frac <= 0.5 {
-                    barFill.color = UIColor.red
-                } else {
-                    barFill.color = UIColor.orange
-                }
+                        targetCode: Int,
+                        timeRemaining: Double) {
+        infoLabel?.text  = "Dial \(currentCircle) - Target: \(targetCode)"
+        timerLabel?.text = String(format: "%.1f", max(0, timeRemaining))
+        
+        let frac = CGFloat(max(min(timeRemaining/totalTime, 1), 0))
+        barFill.xScale = frac
+        
+        if frac <= 0.7 {
+            if frac <= 0.5 {
+                barFill.color = UIColor.red
             } else {
-                barFill.color = UIColor(named: "sandColor") ?? .yellow
+                barFill.color = UIColor.orange
             }
+        } else {
+            barFill.color = UIColor(named: "sandColor") ?? .yellow
         }
+    }
     
     func updateDialPosition(circle: Int, position: Int, isCorrect: Bool, isNearRange: Bool) {
         let dialName = "dial\(circle)"
@@ -233,7 +233,7 @@ class GameScene: SKScene {
                 correctSign.run(combinedAnimation, withKey: "correctSignAnimation")
             }
         } else if isNearRange {
-//            backgroundColor = .yellow
+            //            backgroundColor = .yellow
             
             if let correctSign = childNode(withName: "correctSign") as? SKSpriteNode {
                 correctSign.removeAction(forKey: "correctSignAnimation")
@@ -258,7 +258,7 @@ class GameScene: SKScene {
             let completedTextureName = "dialCompleted\(circle)"
             let completedTexture = SKTexture(imageNamed: completedTextureName)
             dial.texture = completedTexture
-
+            
             dial.zRotation = finalRotation
             
             dial.alpha = 0.9

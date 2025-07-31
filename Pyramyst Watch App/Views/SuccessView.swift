@@ -89,7 +89,7 @@ struct SuccessView: View {
                                         .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.2)
                                 }
                                 .buttonStyle(.plain)
-
+                                
                                 Button(action: {
                                     let currentLevel = UserDefaultManager.shared.getCurrentLevel()
                                     print("GameView — Level: \(currentLevel)")
@@ -101,7 +101,7 @@ struct SuccessView: View {
                                         .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.2)
                                 }
                                 .buttonStyle(.plain)
-
+                                
                             }
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                             .animation(.easeOut(duration: 1), value: showTextAndButtons)
@@ -124,33 +124,33 @@ struct SuccessView: View {
     }
     
     func playAnimation(height: CGFloat) async {
-            await sleep(1)
-            withAnimation {
-                petiOffsetY = -height
-            }
-            
-            await sleep(0.6)
-            withAnimation {
-                showGucci = true
-            }
-            
-            await sleep(1.0)
-            withAnimation {
-                petiFall = true
-            }
-            
-            await sleep(0.8)
-            hidePeti = true
-            withAnimation {
-                showTextAndButtons = true
-            }
-            
-            await sleep(0.2)
-            withAnimation(.easeInOut(duration: 0.7)) {
-                gucciScale = 1.5
-                gucciOffsetY = 10
-            }
+        await sleep(1)
+        withAnimation {
+            petiOffsetY = -height
         }
+        
+        await sleep(0.6)
+        withAnimation {
+            showGucci = true
+        }
+        
+        await sleep(1.0)
+        withAnimation {
+            petiFall = true
+        }
+        
+        await sleep(0.8)
+        hidePeti = true
+        withAnimation {
+            showTextAndButtons = true
+        }
+        
+        await sleep(0.2)
+        withAnimation(.easeInOut(duration: 0.7)) {
+            gucciScale = 1.5
+            gucciOffsetY = 10
+        }
+    }
 }
 
 #Preview {

@@ -49,7 +49,7 @@ class GameOverScene: SKScene {
                 
                 brick.position = CGPoint(x: posX, y: posY)
                 brick.name = "brick_\(row)_\(col)"
-
+                
                 brick.setScale(1.0)
                 
                 addChild(brick)
