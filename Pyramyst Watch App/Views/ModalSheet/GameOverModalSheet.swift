@@ -17,7 +17,7 @@ struct GameOverModalSheet: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                Image("endGameBackground")
+                Image("gameOverBackground")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: geometry.size.width, height: geometry.size.height)

@@ -98,8 +98,8 @@ struct HomeView: View {
                 Image("desertFrame")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: geometry.size.width + 7, height: geometry.size.height + 7)
-                    .offset(y: -geometry.size.height * 0.018)
+                    .frame(width: geometry.size.width + 8, height: geometry.size.height + 8)
+                    .offset(y: -geometry.size.height * 0.02)
                     .clipped()
                 
                 VStack(spacing: 0) {
@@ -128,6 +128,8 @@ struct HomeView: View {
 //                    .background(.red)
                     
                     HStack {
+                        Spacer()
+                        
                         Button(action: {
                             collectionButtonTapped()
                         }) {
@@ -139,10 +141,9 @@ struct HomeView: View {
                                 .padding(.top, geometry.size.height * 0.08)
                         }
                         .buttonStyle(.plain)
-                        
-                        Spacer()
                     }
                     .padding(.horizontal, horizontalPadding(for: geometry))
+                    .padding(.trailing,geometry.size.height * 0.05)
                     .frame(height: geometry.size.height * 0.2)
                     .offset(y: geometry.size.height * 0.09)
                     
@@ -175,7 +176,7 @@ struct HomeView: View {
     }
 
     private func logoHeight(for geometry: GeometryProxy) -> CGFloat {
-        geometry.size.height * 0.7 // 25% dari height
+        geometry.size.height * 0.72 // 25% dari height
     }
 
     private func playButtonHeight(for geometry: GeometryProxy) -> CGFloat {

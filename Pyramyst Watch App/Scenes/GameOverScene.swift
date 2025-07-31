@@ -16,6 +16,7 @@ class GameOverScene: SKScene {
     
     override func sceneDidLoad() {
         backgroundColor = .black
+        setupBackground()
         
         let brickWidth: CGFloat = 50
         let brickHeight: CGFloat = 40
@@ -58,6 +59,21 @@ class GameOverScene: SKScene {
             SKAction.wait(forDuration: collapseDelay),
             SKAction.run { self.startCollapseAnimation() }
         ]))
+    }
+    
+    private func setupBackground() {
+       
+        let tex = SKTexture(imageNamed: "gameOverBackground")
+        let backgroundNode = SKSpriteNode(texture: tex)
+        
+        backgroundNode.anchorPoint = .zero
+        backgroundNode.position    = .zero
+        
+        backgroundNode.zPosition   = -1
+    
+        backgroundNode.size       = size
+        
+        addChild(backgroundNode)
     }
     
     private func startCollapseAnimation() {

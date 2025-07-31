@@ -227,7 +227,7 @@ struct SuccessView: View {
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.2)
                                 }
-                                .buttonStyle(NoTapAnimationStyle())
+                                .buttonStyle(.plain)
 
                                 Button(action: {
                                     let currentLevel = UserDefaultManager.shared.getCurrentLevel()
@@ -239,7 +239,7 @@ struct SuccessView: View {
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.2)
                                 }
-                                .buttonStyle(NoTapAnimationStyle())
+                                .buttonStyle(.plain)
 
                             }
                             .transition(.move(edge: .bottom).combined(with: .opacity))
