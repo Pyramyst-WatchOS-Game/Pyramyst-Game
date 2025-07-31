@@ -46,21 +46,23 @@ struct StoryView: View {
                             .scaledToFit()
                             .frame(height: geometry.size.height)
                             .scaleEffect(moveRight ? 1 : 1.4)
-                            .offset(x: moveRight ? geometry.size.width * 0.4 : 0)
+                            .offset(x: moveRight ? geometry.size.width * 0.3 : 0)
+                            .offset(y: geometry.size.height * 0.2)
                             .animation(.easeInOut(duration: 1.5), value: moveRight)
                             .padding(.top, geometry.size.height * 0.1)
                         Spacer()
                     }
                     .transition(.opacity)
+                    .frame(width: geometry.size.width, height: geometry.size.height)
                 }
                 
                 if showSecondBg {
                     Image("endGameBackground")
                         .resizable()
-                        .scaledToFill()
                         .ignoresSafeArea()
                         .transition(.opacity)
                         .animation(.easeInOut(duration: 1.0), value: showSecondBg)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
                 }
                 
                 if showChest {
@@ -78,6 +80,7 @@ struct StoryView: View {
                         .animation(.easeInOut(duration: 1.2), value: chestZoomIn)
                         .animation(.easeOut(duration: 1.2), value: showChest)
                         .animation(.easeOut(duration: 1.0), value: hideChest)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
                 }
             }
             .navigationBarBackButtonHidden(true)
