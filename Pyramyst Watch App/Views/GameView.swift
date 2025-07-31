@@ -57,7 +57,7 @@ struct GameView: View {
             .onChange(of: viewModel.isGameCompleted) { _, isCompleted in
                 if isCompleted {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                        successVM.getItem(manager.getCurrentLevel() - 1)
+                        _ = successVM.getItem(manager.getCurrentLevel() - 1)
                         router.navigateAndReplacePrevious(to: .success)
                     }
                 }

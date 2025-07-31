@@ -80,7 +80,7 @@ class GameScene: SKScene {
         infoLabel?.position = CGPoint(x: size.width/2, y: size.height * 0.8)
         infoLabel?.text = "Dial 1 - Code: 0"
         infoLabel?.zPosition = 4
-        if let label = infoLabel {
+        if infoLabel != nil {
 //            addChild(label)
         }
         
@@ -91,7 +91,7 @@ class GameScene: SKScene {
         timerLabel?.position = CGPoint(x: size.width/2, y: size.height * 0.15)
         timerLabel?.text = "20.0"
         timerLabel?.zPosition = 4
-        if let label = timerLabel {
+        if timerLabel != nil {
 //            addChild(label)
         }
         
@@ -129,7 +129,7 @@ class GameScene: SKScene {
         let barHeight: CGFloat = 8
         let desiredBarWidth: CGFloat = size.width * 0.3
         
-        let backgroundPadding: CGFloat = 8
+//        let backgroundPadding: CGFloat = 8
         let backgroundWidth = iconSize.width + desiredBarWidth
         let backgroundHeight = max(iconSize.height, barHeight)
         
