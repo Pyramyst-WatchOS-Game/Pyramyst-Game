@@ -18,11 +18,9 @@ class SuccessScene: SKScene {
     private let homeButton = SKLabelNode(text: "Home")
     private let nextButton = SKLabelNode(text: "Next")
 
-    // Treasure image name dan label text sebagai properti dinamis
     private let treasureImageName: String
     private let treasureText: String
 
-    // Custom initializer untuk terima data dinamis
     init(size: CGSize, treasureImageName: String, treasureText: String) {
         self.treasureImageName = treasureImageName
         self.treasureText = treasureText
@@ -33,7 +31,6 @@ class SuccessScene: SKScene {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Lifecycle
     override func sceneDidLoad() {
         setupScene()
         setupChest()
@@ -44,7 +41,6 @@ class SuccessScene: SKScene {
         runAnimations()
     }
 
-    // MARK: - Setup Methods
     private func setupScene() {
         backgroundColor = .black
     }

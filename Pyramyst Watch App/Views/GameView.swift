@@ -63,7 +63,6 @@ struct GameView: View {
                 }
             }
             .onAppear {
-                print("🎯 GameView appeared")
                 viewModel.isGameOver = false
                 viewModel.isGameCompleted = false
             }

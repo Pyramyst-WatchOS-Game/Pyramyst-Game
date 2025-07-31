@@ -11,14 +11,6 @@ import SpriteKit
 struct InventoryView: View {
     @StateObject private var viewModel = InventoryViewModel()
     
-    init (){
-        print("InventoryView initialized")
-    }
-    
-//    deinit {
-//        print("InventoryView deinitialized")
-//    }
-
     var body: some View {
         VStack {
             ScrollView {
