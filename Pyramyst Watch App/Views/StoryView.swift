@@ -40,7 +40,6 @@ struct StoryView: View {
                             .frame(height: geometry.size.height)
                             .scaleEffect(moveRight ? 1 : 1.4)
                             .offset(x: moveRight ? geometry.size.width * 0.3 : 0)
-                        //                            .offset(y: geometry.size.height * 0)
                             .animation(.easeInOut(duration: 1), value: moveRight)
                             .padding(.top, geometry.size.height * 0.1)
                         Spacer()
@@ -64,7 +63,7 @@ struct StoryView: View {
                         .scaledToFit()
                         .frame(width: geometry.size.width * 0.8)
                         .offset(
-                            x: hideChest ? -geometry.size.width : 0,
+                            x: hideChest ? -geometry.size.width + -15 : 0,
                             y: -geometry.size.height * 0.13
                         )
                         .scaleEffect(chestZoomIn ? 7 : 1.0)
@@ -87,12 +86,12 @@ struct StoryView: View {
     }
     
     func playStoryAnimation() async {
-        withAnimation(.easeInOut(duration: 0.1)) {
+        withAnimation(.easeInOut(duration: 0)) {
             showBackground = true
             showPerson = true
         }
         
-        await sleep(1.0)
+        await sleep(0.5)
         moveRight = true
         
         await sleep(1.5)
