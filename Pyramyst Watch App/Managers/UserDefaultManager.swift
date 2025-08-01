@@ -88,4 +88,8 @@ class UserDefaultManager {
     func getUserLevel() -> Int {
         return UserDefaults.standard.integer(forKey: userLevelKey)
     }
+    
+    func getRandomItemIfAllCollected() -> ItemModel? {
+        return defaultCollectibleItems.randomElement()
+    }
 }

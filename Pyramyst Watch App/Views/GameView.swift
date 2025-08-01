@@ -72,7 +72,14 @@ struct GameView: View {
                 .onChange(of: viewModel.isGameCompleted) { _, isCompleted in
                     if isCompleted {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                            successVM.getItem(manager.getCurrentLevel() - 1)
+                            let currLevel = manager.getCurrentLevel() - 1
+                            if currLevel > 20 { //dynamic level if needed
+                                if let randomItem = manager.getRandomItemIfAllCollected() {
+                                    successVM.getRandomItem(randomItem)
+                                }
+                            } else {
+                                successVM.getItem(manager.getCurrentLevel() - 1)
+                            }
                             router.navigateAndReplacePrevious(to: .success)
                         }
                     }

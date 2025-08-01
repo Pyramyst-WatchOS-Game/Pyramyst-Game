@@ -35,4 +35,9 @@ class SuccessViewModel : ObservableObject {
         return item
     }
     
+    func getRandomItem(_ item: ItemModel) {
+        treasure = item.image
+        name = item.name
+    }
+    
 }
