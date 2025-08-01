@@ -84,4 +84,8 @@ class UserDefaultManager {
         let items = loadItems()
         return items.first { $0.level == level }
     }
+    
+    func getUserLevel() -> Int {
+        return UserDefaults.standard.integer(forKey: userLevelKey)
+    }
 }

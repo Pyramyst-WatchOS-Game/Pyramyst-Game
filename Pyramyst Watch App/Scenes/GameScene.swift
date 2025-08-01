@@ -129,7 +129,6 @@ class GameScene: SKScene {
         let barHeight: CGFloat = 8
         let desiredBarWidth: CGFloat = size.width * 0.3
         
-        //        let backgroundPadding: CGFloat = 8
         let backgroundWidth = iconSize.width + desiredBarWidth
         let backgroundHeight = max(iconSize.height, barHeight)
         
@@ -233,20 +232,23 @@ class GameScene: SKScene {
                 correctSign.run(combinedAnimation, withKey: "correctSignAnimation")
             }
         } else if isNearRange {
-            //            backgroundColor = .yellow
-            
             if let correctSign = childNode(withName: "correctSign") as? SKSpriteNode {
                 correctSign.removeAction(forKey: "correctSignAnimation")
                 correctSign.alpha = 0.2
             }
         } else {
-            backgroundColor = .black
             
             if let correctSign = childNode(withName: "correctSign") as? SKSpriteNode {
                 correctSign.removeAction(forKey: "correctSignAnimation")
                 correctSign.alpha = 0.0
             }
         }
+    }
+    
+    func removeCorrectSign() {
+        self.removeChildren(in:
+            self.children.filter { $0.name == "correctSign" }
+        )
     }
     
     func markDialAsCompleted(circle: Int, finalRotation: CGFloat) {

@@ -46,6 +46,8 @@ final class GameViewModel: ObservableObject {
         self.gameModel = gameModel
         self.timeRemaining = gameModel.timeLimit
         
+        print(gameModel)
+        
         let screenBounds = WKInterfaceDevice.current().screenBounds
         let screenSize = CGSize(width: screenBounds.width, height: screenBounds.height)
         
@@ -59,20 +61,29 @@ final class GameViewModel: ObservableObject {
     
     private func startGame() {
         updateGameDisplay()
+        startTimerIfNeeded()
+    }
+    
+    private func startTimerIfNeeded() {
+        gameTimer?.invalidate()
+        gameTimer = nil
+
+        let shouldRunTimer = !(manager.getCurrentLevel() == 1 && gameModel.currentCircle == 1)
         
-        gameTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-            DispatchQueue.main.async {
-                self.timeRemaining -= 0.1
-                
-                self.updateGameDisplay()
-                
-                if self.timeRemaining <= 0 {
-                    self.gameOver()
+        if shouldRunTimer {
+            gameTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+                DispatchQueue.main.async {
+                    self.timeRemaining -= 0.1
+                    self.updateGameDisplay()
+                    
+                    if self.timeRemaining <= 0 {
+                        self.gameOver()
+                    }
                 }
             }
         }
     }
-    
+
     private func updateGameDisplay() {
         if let gameScene = scene as? GameScene {
             gameScene.updateGameInfo(
@@ -135,8 +146,7 @@ final class GameViewModel: ObservableObject {
             lastTick = tick
         }
     }
-    
-    
+
     private enum HapticType: Equatable {
         case correct
         case nearTarget
@@ -162,6 +172,10 @@ final class GameViewModel: ObservableObject {
     }
     
     func submitCode() {
+        if isGameCompleted || isGameOver {
+            return
+        }
+        
         let currentPosition = Int(rotation) % currentMaxTicks
         
         stopHapticFeedback()
@@ -176,8 +190,14 @@ final class GameViewModel: ObservableObject {
                 gameModel.currentCircle += 1
                 rotation = 0.0
                 updateGameDisplay()
+                startTimerIfNeeded()
+                if self.gameModel.level >= 10 {
+                    increaseTime()
+                
+                }
                 WKInterfaceDevice.current().play(.success)
             } else {
+                self.scene.removeCorrectSign()
                 gameCompleted()
             }
         } else {
@@ -185,24 +205,36 @@ final class GameViewModel: ObservableObject {
         }
     }
     
+    private func increaseTime() {
+        self.timeRemaining += 1
+    }
+    
     private func gameCompleted() {
+        print("🎉 Game completed - cleaning up")
+        print(manager.getUserLevel())
         stopHapticFeedback()
         gameTimer?.invalidate()
+        gameTimer = nil
         isGameCompleted = true
         manager.goToNextLevel()
         WKInterfaceDevice.current().play(.success)
     }
     
     private func gameOver() {
+        print("💀 Game over - cleaning up")
         stopHapticFeedback()
         gameTimer?.invalidate()
+        gameTimer = nil
         isGameOver = true
         WKInterfaceDevice.current().play(.failure)
     }
     
     deinit {
+        print("🧹 GameViewModel deinit - cleaning up timers")
         gameTimer?.invalidate()
+        gameTimer = nil
         hapticTimer?.invalidate()
-        print("🧹 GameViewModel deinitialized: ")
+        hapticTimer = nil
+        stopHapticFeedback()
     }
 }

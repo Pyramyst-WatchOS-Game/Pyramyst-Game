@@ -16,6 +16,7 @@ struct StoryView: View {
     @State private var chestZoomIn = false
     @State private var hideChest = false
     @State private var showSecondBg = false
+    @State private var showThirdBg = false
     @State private var chestOffsetX: CGFloat = 0
     @State private var secondBgOffsetX: CGFloat = 0
     
@@ -46,6 +47,15 @@ struct StoryView: View {
                     }
                     .transition(.opacity)
                     .frame(width: geometry.size.width, height: geometry.size.height)
+                }
+                
+                if showThirdBg {
+                    Image("gameBackground")
+                        .resizable()
+                        .ignoresSafeArea()
+                        .transition(.opacity)
+                        .animation(.easeInOut(duration: 1.0), value: showThirdBg)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
                 }
                 
                 if showSecondBg {
@@ -102,6 +112,7 @@ struct StoryView: View {
         
         await sleep(0.1)
         withAnimation {
+            showThirdBg = true
             showSecondBg = true
         }
         
@@ -122,7 +133,7 @@ struct StoryView: View {
         }
         
         await sleep(0.3)
-        router.navigate(to: .gameView(UUID()))
+        router.navigateAndReplacePrevious(to: .gameView(UUID()))
     }
     
 }

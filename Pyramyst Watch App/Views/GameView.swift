@@ -83,15 +83,15 @@ struct GameView: View {
                     .ignoresSafeArea()
                 VStack(spacing: 20) {
                     if tutorialStep == 0 {
-                        Text("Game has been Started !!")
+                        Text("How to Play")
                             .font(.headline)
                             .bold()
                             .foregroundColor(.white)
-                        Text("Rotate the crown to move the dials.")
+                        Text("• Rotate the crown to move the dials.\n• Find the correct code and tap the screen to unlock the dial.\n• Timer will start when you complete the first dial.\n• Complete all dials to win!.")
                             .font(.footnote)
                             .multilineTextAlignment(.center)
                             .foregroundColor(.white)
-                            .padding()
+                            .padding(.horizontal, 0)
                     } else if tutorialStep == 1 {
                         Text("Find the Correct Code")
                             .font(.headline)
@@ -103,11 +103,12 @@ struct GameView: View {
                             .foregroundColor(.white)
                             .padding()
                     } else if tutorialStep == 2 {
-                        Text("Tap to Unlock")
+                        Text("Tap the Screen to Unlock")
                             .font(.headline)
+                            .multilineTextAlignment(.center)
                             .bold()
                             .foregroundColor(.white)
-                        Text("Tap anywhere when the correct sign appears to unlock the dial.")
+                        Text("Tap anywhere on the screen when the correct sign appears to unlock the dial.")
                             .font(.footnote)
                             .multilineTextAlignment(.center)
                             .foregroundColor(.white)
@@ -116,6 +117,7 @@ struct GameView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea()
             }
         }
         .onAppear {

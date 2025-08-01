@@ -76,6 +76,7 @@ struct InventoryView: View {
                 manager.resetLevel()
                 manager.resetItems()
                 viewModel.loadItem()
+                UserDefaults.standard.set(false, forKey: "hasShownGameTooltip")
                 resetCount = 0
                 print("Resetting level...")
             }
