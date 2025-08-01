@@ -83,7 +83,7 @@ struct GameView: View {
                     .ignoresSafeArea()
                 VStack(spacing: 20) {
                     if tutorialStep == 0 {
-                        Text("How to Play")
+                        Text("Game has been Started !!")
                             .font(.headline)
                             .bold()
                             .foregroundColor(.white)
