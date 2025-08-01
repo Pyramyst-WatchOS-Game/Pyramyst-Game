@@ -128,10 +128,16 @@ struct GameView: View {
             if tutorialStep == 2 {
                 let currentPosition = Int(viewModel.rotation) % (viewModel.gameModel.currentCircle == 1 ? 50 : viewModel.gameModel.currentCircle == 2 ? 75 : 100)
                 let isCorrect = currentPosition == (viewModel.gameModel.currentCircle == 1 ? viewModel.gameModel.firstCode : viewModel.gameModel.currentCircle == 2 ? viewModel.gameModel.secondCode : viewModel.gameModel.thirdCode)
+                
                 if isCorrect {
                     tutorialStep = 3
+                    
+                    #if DEBUG
                     UserDefaults.standard.set(true, forKey: "hasShownGameTooltip")
+                    #endif
+                    
                     viewModel.submitCode()
+                
                 }
             }
         }
