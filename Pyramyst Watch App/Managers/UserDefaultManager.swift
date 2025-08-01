@@ -57,6 +57,15 @@ class UserDefaultManager {
         UserDefaults.standard.set(1, forKey: userLevelKey)
     }
     
+    func resetItems() {
+        var items = loadItems()
+        for index in items.indices {
+            items[index].isCollected = false
+            items[index].collectedDate = nil
+        }
+        saveItems(items)
+    }
+    
     func updateLevel(_ level: Int) -> Void {
         UserDefaults.standard.set(level, forKey: userLevelKey)
     }

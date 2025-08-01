@@ -11,6 +11,10 @@ import SpriteKit
 struct InventoryView: View {
     @StateObject private var viewModel = InventoryViewModel()
     
+    private var manager = UserDefaultManager.shared
+    
+    @State private var resetCount = 0
+    
     var body: some View {
         VStack {
             ScrollView {
@@ -61,6 +65,23 @@ struct InventoryView: View {
                     }
                 }
                 .padding(.vertical, 12)
+            }
+        }
+        .onAppear {
+            manager.initItems()
+            viewModel.loadItem()
+        }
+        .onTapGesture{
+            if resetCount >= 50 {
+                manager.resetLevel()
+                manager.resetItems()
+                viewModel.loadItem()
+                resetCount = 0
+                print("Resetting level...")
+            }
+            else {
+                resetCount += 1
+                print("Reset count: \(resetCount)")
             }
         }
     }
