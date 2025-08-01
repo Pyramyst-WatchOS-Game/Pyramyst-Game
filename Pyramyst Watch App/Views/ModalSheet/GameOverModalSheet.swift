@@ -30,7 +30,7 @@ struct GameOverModalSheet: View {
                         .scaledToFit()
                         .frame(width: geometry.size.width * 0.6)
                     
-                    HStack(spacing: geometry.size.width * 0.05) {
+                    HStack(alignment: .top, spacing: geometry.size.width * 0.025) {
                         
                         // Retry Button
                         Button(action: {
@@ -43,7 +43,7 @@ struct GameOverModalSheet: View {
                             Image("retryButton")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.2)
+                                .frame(width: geometry.size.width * 0.45)
                         }
                         .buttonStyle(.plain)
                         
@@ -58,13 +58,14 @@ struct GameOverModalSheet: View {
                             Image("homeButton")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.2)
+                                .frame(width: geometry.size.width * 0.45)
                         }
                         .buttonStyle(.plain)
                     }
                     
                 }
-                .frame(width: geometry.size.width, height: geometry.size.height)
+                .frame(maxWidth: .infinity)
+                .padding(.bottom, geometry.size.height * 0.1)
                 .padding(.top, geometry.size.height * 0.12)
             }
         }

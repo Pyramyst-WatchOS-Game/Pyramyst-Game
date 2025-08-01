@@ -68,7 +68,7 @@ struct SuccessView: View {
                     .frame(maxHeight: geometry.size.height * 0.6)
                     
                     if showTextAndButtons {
-                        VStack(spacing: geometry.size.height * 0.06) {
+                        VStack(spacing: geometry.size.height * 0.02) {
                             Text(successVM.name)
                                 .font(.custom("LuckiestGuy-Regular", size: geometry.size.width * 0.1))
                                 .foregroundColor(Color(uiColor: UIColor(named: "textColor") ?? .white))
@@ -79,14 +79,14 @@ struct SuccessView: View {
                                 .transition(.move(edge: .bottom).combined(with: .opacity))
                                 .animation(.easeOut(duration: 1), value: showTextAndButtons)
                             
-                            HStack(spacing: geometry.size.width * 0.06) {
+                            HStack(alignment: .top, spacing: geometry.size.width * 0.025) {
                                 Button(action: {
                                     router.navigateToRoot()
                                 }) {
                                     Image("homeButton")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.2)
+                                        .frame(width: geometry.size.width * 0.45)
                                 }
                                 .buttonStyle(.plain)
                                 
@@ -98,11 +98,13 @@ struct SuccessView: View {
                                     Image("nextButton")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.2)
+                                        .frame(width: geometry.size.width * 0.45)
                                 }
                                 .buttonStyle(.plain)
                                 
                             }
+                            .frame(maxWidth: .infinity)
+                            .padding(.bottom, geometry.size.height * 0.1)
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                             .animation(.easeOut(duration: 1), value: showTextAndButtons)
                         }
