@@ -48,6 +48,7 @@ struct StoryView: View {
                     .frame(width: geometry.size.width, height: geometry.size.height)
                 }
                 
+                
                 if showSecondBg {
                     Image("endGameBackground")
                         .resizable()
@@ -89,6 +90,13 @@ struct StoryView: View {
         withAnimation(.easeInOut(duration: 0)) {
             showBackground = true
             showPerson = true
+            
+#if DEBUG
+            print("Running in DEBUG build")
+#elseif TESTING
+            print("Running in TESTING build")
+#endif
+            
         }
         
         await sleep(0.5)
