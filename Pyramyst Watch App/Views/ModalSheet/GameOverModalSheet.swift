@@ -1,0 +1,82 @@
+//
+//  GameOverModalSheet.swift
+//  Pyramyst Watch App
+//
+//  Created by Naela Fauzul Muna on 27/07/25.
+//
+
+import SwiftUI
+
+struct GameOverModalSheet: View {
+    let onRetry: () -> Void
+    let onQuit: () -> Void
+    
+    @State private var isRetryPressed = false
+    @State private var isQuitPressed = false
+    
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack {
+                Image("gameOverBackground")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .clipped()
+                    .ignoresSafeArea()
+                
+                VStack(spacing: geometry.size.height * 0.15) {
+                    Image("gameOverText")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: geometry.size.width * 0.6)
+                    
+                    HStack(alignment: .top, spacing: geometry.size.width * 0.025) {
+                        
+                        // Retry Button
+                        Button(action: {
+                            isRetryPressed = true
+                            onRetry()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                isRetryPressed = false
+                            }
+                        }) {
+                            Image("retryButton")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: geometry.size.width * 0.45)
+                        }
+                        .buttonStyle(.plain)
+                        
+                        // Quit Button
+                        Button(action: {
+                            isQuitPressed = true
+                            onQuit()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                isQuitPressed = false
+                            }
+                        }) {
+                            Image("homeButton")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: geometry.size.width * 0.45)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.bottom, geometry.size.height * 0.1)
+                .padding(.top, geometry.size.height * 0.12)
+            }
+        }
+        .ignoresSafeArea()
+    }
+}
+
+#Preview {
+    GameOverModalSheet {
+        print("Retry pressed")
+    } onQuit: {
+        print("Home pressed")
+    }
+}

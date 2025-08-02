@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct Pyramyst_Watch_App: App {
+    @StateObject var successVM = SuccessViewModel()
+    
     var body: some Scene {
-           WindowGroup {
-               GameView()
-           }
-       }
+        WindowGroup {
+            HomeView()
+        }
+        .environmentObject(successVM)
+    }
 }

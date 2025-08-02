@@ -6,5 +6,7 @@
 //
 
 import Foundation
-// gatot
-// alie
+
+struct UserModel: Codable {
+    let level: Int
+}
