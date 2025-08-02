@@ -8,6 +8,7 @@
 import SpriteKit
 import Combine
 import WatchKit
+
 final class GameViewModel: ObservableObject {
     @Published var rotation: Double = 0.0
     @Published var gameModel: GamePlayModel
@@ -67,7 +68,7 @@ final class GameViewModel: ObservableObject {
     private func startTimerIfNeeded() {
         gameTimer?.invalidate()
         gameTimer = nil
-
+        
         let shouldRunTimer = !(manager.getCurrentLevel() == 1 && gameModel.currentCircle == 1)
         
         if shouldRunTimer {
@@ -83,15 +84,13 @@ final class GameViewModel: ObservableObject {
             }
         }
     }
-
+    
     private func updateGameDisplay() {
-        if let gameScene = scene as? GameScene {
-            gameScene.updateGameInfo(
-                currentCircle: gameModel.currentCircle,
-                targetCode: currentTargetCode,
-                timeRemaining: timeRemaining
-            )
-        }
+        scene.updateGameInfo(
+            currentCircle: gameModel.currentCircle,
+            targetCode: currentTargetCode,
+            timeRemaining: timeRemaining
+        )
     }
     
     func updateRotation(to newValue: Double) {
@@ -102,20 +101,18 @@ final class GameViewModel: ObservableObject {
         
         let isInNearRange = currentPosition >= (currentTargetCode - 2) && currentPosition < currentTargetCode || currentPosition > currentTargetCode && currentPosition <= (currentTargetCode + 2)
         
-        if let gameScene = scene as? GameScene {
-            gameScene.updateDialPosition(
-                circle: gameModel.currentCircle,
-                position: currentPosition,
-                isCorrect: isCorrectPosition,
-                isNearRange: isInNearRange
-            )
-        }
+        scene.updateDialPosition(
+            circle: gameModel.currentCircle,
+            position: currentPosition,
+            isCorrect: isCorrectPosition,
+            isNearRange: isInNearRange
+        )
+        
         
         let angle = (newValue / Double(currentMaxTicks)) * 2 * .pi
         
-        if let gameScene = scene as? GameScene {
-            gameScene.updateDialRotation(circle: gameModel.currentCircle, rotation: CGFloat(angle))
-        }
+        scene.updateDialRotation(circle: gameModel.currentCircle, rotation: CGFloat(angle))
+        
         
         let tick = currentPosition
         if tick != lastTick {
@@ -146,7 +143,7 @@ final class GameViewModel: ObservableObject {
             lastTick = tick
         }
     }
-
+    
     private enum HapticType: Equatable {
         case correct
         case nearTarget
@@ -182,9 +179,7 @@ final class GameViewModel: ObservableObject {
         
         if currentPosition == currentTargetCode {
             let finalAngle = (rotation / Double(currentMaxTicks)) * 2 * .pi
-            if let gameScene = scene as? GameScene {
-                gameScene.markDialAsCompleted(circle: gameModel.currentCircle, finalRotation: CGFloat(finalAngle))
-            }
+            scene.markDialAsCompleted(circle: gameModel.currentCircle, finalRotation: CGFloat(finalAngle))
             
             if gameModel.currentCircle < 3 {
                 gameModel.currentCircle += 1
@@ -193,7 +188,7 @@ final class GameViewModel: ObservableObject {
                 startTimerIfNeeded()
                 if self.gameModel.level >= 10 {
                     increaseTime()
-                
+                    
                 }
                 WKInterfaceDevice.current().play(.success)
             } else {

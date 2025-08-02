@@ -78,7 +78,7 @@ struct GameView: View {
                                     successVM.getRandomItem(randomItem)
                                 }
                             } else {
-                                successVM.getItem(manager.getCurrentLevel() - 1)
+                                _ = successVM.getItem(manager.getCurrentLevel() - 1)
                             }
                             router.navigateAndReplacePrevious(to: .success)
                         }

@@ -8,9 +8,9 @@ import Foundation
 
 struct ItemModel: Codable, Identifiable, Hashable {
     var id: UUID = UUID()
-    var name: String
-    var image: String
+    let name: String
+    let image: String
     var isCollected: Bool = false
     var collectedDate: Date?
-    var level: Int
+    let level: Int
 }

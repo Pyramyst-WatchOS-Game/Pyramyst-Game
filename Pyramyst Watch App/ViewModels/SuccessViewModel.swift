@@ -15,10 +15,6 @@ class SuccessViewModel : ObservableObject {
     @Published var treasure: String = ""
     @Published var name: String = ""
     
-    func updateLevel(level: Int) {
-        
-    }
-    
     func updateCollectibles(id: UUID, isCollected: Bool, date: Date) {
         manager.updateItem(id: id, isCollected: isCollected, date: date)
     }

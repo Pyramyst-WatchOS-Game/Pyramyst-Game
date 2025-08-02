@@ -100,12 +100,6 @@ struct StoryView: View {
             showBackground = true
             showPerson = true
             
-#if DEBUG
-            print("Running in DEBUG build")
-#elseif TESTING
-            print("Running in TESTING build")
-#endif
-            
         }
         
         await sleep(0.5)

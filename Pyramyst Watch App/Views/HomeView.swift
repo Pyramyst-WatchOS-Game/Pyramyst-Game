@@ -9,6 +9,12 @@ struct HomeView: View {
     
     init() {
         print("HomeView initialized")
+        
+#if DEBUG
+        print("Running in DEBUG build")
+#elseif TESTING
+        print("Running in TESTING build")
+#endif
     }
     
     var body: some View {

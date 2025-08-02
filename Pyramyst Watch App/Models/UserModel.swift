@@ -8,5 +8,5 @@
 import Foundation
 
 struct UserModel: Codable {
-    var level: Int
+    let level: Int
 }

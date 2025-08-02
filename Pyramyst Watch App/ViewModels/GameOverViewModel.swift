@@ -17,7 +17,6 @@ class GameOverViewModel: ObservableObject {
     let gameOverScene: GameOverScene
     
     init() {
-        
         let screenBounds = WKInterfaceDevice.current().screenBounds
         let screenSize = CGSize(width: screenBounds.width, height: screenBounds.height)
         
@@ -44,9 +43,5 @@ class GameOverViewModel: ObservableObject {
     
     func resetGame() {
         manager.resetLevel()
-    }
-    
-    func restartGame() {
-        
     }
 }
