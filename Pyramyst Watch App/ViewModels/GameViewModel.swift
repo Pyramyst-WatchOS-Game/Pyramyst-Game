@@ -186,9 +186,10 @@ final class GameViewModel: ObservableObject {
                 rotation = 0.0
                 updateGameDisplay()
                 startTimerIfNeeded()
-                if self.gameModel.level >= 10 {
-                    increaseTime()
-                    
+                if self.gameModel.level >= 10 && self.gameModel.level <= 15 {
+                    increaseTime(second: 1.0)
+                } else if (self.gameModel.level > 15) {
+                    increaseTime(second: 2.0)
                 }
                 WKInterfaceDevice.current().play(.success)
             } else {
@@ -200,8 +201,8 @@ final class GameViewModel: ObservableObject {
         }
     }
     
-    private func increaseTime() {
-        self.timeRemaining += 1
+    private func increaseTime(second: Double) {
+        self.timeRemaining += second
     }
     
     private func gameCompleted() {
@@ -211,7 +212,9 @@ final class GameViewModel: ObservableObject {
         gameTimer?.invalidate()
         gameTimer = nil
         isGameCompleted = true
-        manager.goToNextLevel()
+        if manager.getUserLevel() <= 25 {
+            manager.goToNextLevel()
+        }
         WKInterfaceDevice.current().play(.success)
     }
     

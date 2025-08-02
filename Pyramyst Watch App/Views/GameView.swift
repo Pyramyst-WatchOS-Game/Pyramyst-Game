@@ -73,7 +73,7 @@ struct GameView: View {
                     if isCompleted {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                             let currLevel = manager.getCurrentLevel() - 1
-                            if currLevel > 20 { //dynamic level if needed
+                            if currLevel > 20 {
                                 if let randomItem = manager.getRandomItemIfAllCollected() {
                                     successVM.getRandomItem(randomItem)
                                 }
