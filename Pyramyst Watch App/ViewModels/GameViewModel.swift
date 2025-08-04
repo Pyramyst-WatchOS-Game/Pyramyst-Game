@@ -187,9 +187,9 @@ final class GameViewModel: ObservableObject {
                 updateGameDisplay()
                 startTimerIfNeeded()
                 if self.gameModel.level >= 10 && self.gameModel.level <= 15 {
-                    increaseTime(second: 1.0)
+                    increaseTime(second: 0.5)
                 } else if (self.gameModel.level > 15) {
-                    increaseTime(second: 2.0)
+                    increaseTime(second: 1.0)
                 }
                 WKInterfaceDevice.current().play(.success)
             } else {

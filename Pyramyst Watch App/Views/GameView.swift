@@ -141,9 +141,7 @@ struct GameView: View {
                 if isCorrect {
                     tutorialStep = 3
                     
-                    #if DEBUG
                     UserDefaults.standard.set(true, forKey: "hasShownGameTooltip")
-                    #endif
                     
                     viewModel.submitCode()
                 
