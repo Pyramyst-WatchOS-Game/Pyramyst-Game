@@ -92,6 +92,7 @@ struct GameView: View {
                     if tutorialStep == 0 {
                         Text("How to Play")
                             .font(.headline)
+                            .multilineTextAlignment(.center)
                             .bold()
                             .foregroundColor(.white)
                         Text("• Rotate the crown to move the dials.\n• Find the correct code and tap the screen to unlock the dial.\n• Timer will start when you complete the first dial.\n• Complete all dials to win!.")
@@ -102,6 +103,7 @@ struct GameView: View {
                     } else if tutorialStep == 1 {
                         Text("Find the Correct Code")
                             .font(.headline)
+                            .multilineTextAlignment(.center)
                             .bold()
                             .foregroundColor(.white)
                         Text("Keep rotating the crown until you see the glowing correct sign.")
